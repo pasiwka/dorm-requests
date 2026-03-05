@@ -119,8 +119,33 @@ svg * {
     scroll-behavior: auto !important;
   }
 }
-body {
-  background: aqua;
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.step {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #B9B9C3;
+  background: white;
+  transition: all 0.3s ease;
+}
+.step.active {
+  border-color: #09570e;
+  background: #09570e;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgb(7, 56, 10);
+}
+
+.line {
+  width: 40px;
+  height: 1.1px;
+  background: #B9B9C3;
+  transition: background 0.3s ease;
 }
 
 /*# sourceMappingURL=main.css.map */
