@@ -1,0 +1,35 @@
+@use 'sass:math';
+
+@function rem($pixel) {
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, 16) + rem;
+  } @else {
+    @error 'Не используйте единицы измерения при работе с функцией rem()! Передавайте аргументом только числа.'
+  }
+}
+@function fluid($max: 100, $min: 10) {
+  // Максимальная и минимальная ширина viewport
+  $maxViewportWidth: 1920;
+  $minViewportWidth: 390;
+
+  // Преобразование размеров шрифта из пикселей в rem
+  $maxSize: math.div($max, 16);
+  $minSize: math.div($min, 16);
+
+  // Преобразование ширины viewport из пикселей в rem
+  $maxWidth: math.div($maxViewportWidth, 16);
+  $minWidth: math.div($minViewportWidth, 16);
+
+  // Расчет наклона (slope) для линейной интерполяции
+  $slope: math.div(($maxSize - $minSize), ($maxWidth - $minWidth));
+
+  // Расчет точки пересечения с осью Y
+  $yAxisIntersection: -$minWidth * $slope + $minSize;
+
+  // Установка адаптивного размера шрифта с использованием clamp
+  @return clamp(
+          #{$minSize * 1rem}, // Минимальный размер шрифта
+          #{$yAxisIntersection * 1rem} + #{$slope * 100vw}, // Динамический размер шрифта
+          #{$maxSize * 1rem} // Максимальный размер шрифта
+  );
+}
