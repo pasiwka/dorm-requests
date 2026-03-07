@@ -10,6 +10,7 @@
 </head>
 <body>
     <header class="header">
+        <div class="container_1">
         <img src="/frontend/pages/img/Logo.svg" alt="CampusNet" class="logo-img">
         <span class="logo-text">CampusNet</span>
         <div class="stepper">
@@ -19,8 +20,44 @@
             <div class="line"></div>
             <div class="step"></div>
         </div>
+        </div>
     </header>
     <main>
-    </main>
+        <form action="/api/auth/login" method="POST" class="container" id="loginForm">
+                <h1>Вход в систему заявок</h1>
+                <div class="notification" id="emailNotification">
+                    <div class="notification-content">
+                        <span class="notification-icon"><img src="/frontend/pages/img/Icon.png" alt=""></span>
+                        <span class="notification-text">Все, что вам нужно — это почта, привязанная к общежитию.</span>
+                    </div>
+                    <button class="notification-close" id="closeNotification"><img src="/frontend/pages/img/Vector.png" alt=""></button>
+                </div>
+
+                <div class="input-wrapper">
+                    <input
+                            type="email"
+                            name="email"
+                            class="auth-input"
+                            placeholder="your.email@dorm.ru"
+                            required
+                    >
+                </div>
+
+                <div class="input-wrapper">
+                    <input
+                            type="password"
+                            name="password"
+                            class="auth-input"
+                            placeholder="Пароль"
+                            required
+                            minlength="6"
+                    >
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <span>Войти в систему</span>
+                </button>
+        </form>
+        </main>
 </body>
 </html>

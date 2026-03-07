@@ -5,23 +5,18 @@
   --color-light: #FFFF;
   --color-dark-10:#242731;
   --color-dark:#141414;
-  --box-shadow: 0 0 10px rgb(7, 56, 10);
   --color-light-10: #B9B9C3;
+  --color-light-20: #F0F2F4;
+
   --border:1 solid var(--color-dark-15);
+
+  --box-shadow: 0 0 10px rgb(7, 56, 10);
+
 
   --font-family-base:'Roboto',sans-serif;
 
-  --container-width:1600;
-  --container-padding-x:#{rem(16)};
+  --container-padding:#{rem(80)};
 
-  --transition-duration: 0.2s;
-
-
-  --gradient: linear-gradient(
-                  45deg,
-                  var(--color-dark-15) 64%,
-                  var(--color-accent) 136%
-  );
   @include laptop{
     --container-width:#{rem(1280)};
   }

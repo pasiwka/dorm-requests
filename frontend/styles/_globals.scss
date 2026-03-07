@@ -12,8 +12,7 @@ body {
 .stepper {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+
 }
 
 .step {
@@ -38,5 +37,30 @@ body {
   height: 1.1px;
   background: var(--color-light-10);
   transition: background 0.3s ease;
+
+}
+h1{
+  font-weight: 700;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: var(--container-padding);
+}
+.container > * {
+  margin: 11px;
+  width: 100%;
+  max-width: 456px;
+}
+.container_1{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 80px;
+  gap: 10px;
 
 }

@@ -122,41 +122,68 @@ svg * {
 @font-face {
   font-family: "Roboto";
   src: url("fonts/Roboto-Bold.ttf");
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Roboto";
   src: url("fonts/Roboto-Light.ttf");
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Roboto";
   src: url("fonts/Roboto-Regular.ttf");
-  font-weight: 700;
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-light-20);
+  border-radius: 8px;
+  padding: 16px 16px;
+  margin: 20px 0;
+  max-width: 600px;
+}
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notification-icon {
+  font-size: 20px;
+}
+.notification-text {
+  color: var(--color-dark-10);
+  font-size: 14px;
+}
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 5px;
+}
+.notification-close:hover {
+  color: #000;
+}
+
 :root {
   --color-green: #09570e;
   --color-light: #FFFF;
   --color-dark-10:#242731;
   --color-dark:#141414;
-  --box-shadow: 0 0 10px rgb(7, 56, 10);
   --color-light-10: #B9B9C3;
+  --color-light-20: #F0F2F4;
   --border:1 solid var(--color-dark-15);
+  --box-shadow: 0 0 10px rgb(7, 56, 10);
   --font-family-base:'Roboto',sans-serif;
-  --container-width:1600;
-  --container-padding-x:1rem;
-  --transition-duration: 0.2s;
-  --gradient: linear-gradient(
-                  45deg,
-                  var(--color-dark-15) 64%,
-                  var(--color-accent) 136%
-  );
+  --container-padding:5rem;
 }
 @media (width <= 90.06125rem) {
   :root {
@@ -176,8 +203,6 @@ body {
 .stepper {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
 }
 
 .step {
@@ -200,6 +225,33 @@ body {
   height: 1.1px;
   background: var(--color-light-10);
   transition: background 0.3s ease;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: var(--container-padding);
+}
+
+.container > * {
+  margin: 11px;
+  width: 100%;
+  max-width: 456px;
+}
+
+.container_1 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 80px;
+  gap: 10px;
 }
 
 /*# sourceMappingURL=main.css.map */

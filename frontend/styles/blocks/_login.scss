@@ -1,0 +1,38 @@
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-light-20);
+  border-radius: 8px;
+  padding: 16px 16px;
+  margin: 20px 0;
+  max-width: 600px;
+
+  &-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &-icon {
+    font-size: 20px;
+  }
+
+  &-text {
+    color: var(--color-dark-10);
+    font-size: 14px;
+  }
+
+  &-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+
+    padding: 0 5px;
+
+    &:hover {
+      color: #000;
+    }
+  }
+}
