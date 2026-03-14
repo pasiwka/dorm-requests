@@ -13,7 +13,7 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  left: 130px;
+  left: 50px;
 
 }
 
@@ -90,3 +90,9 @@ input{
   padding: 10px;
 }
 
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 80px;
+}
