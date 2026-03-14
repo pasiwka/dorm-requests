@@ -12,6 +12,8 @@ body {
 .stepper {
   display: flex;
   align-items: center;
+  position: relative;
+  left: 130px;
 
 }
 
@@ -24,7 +26,7 @@ body {
   transition: all 0.3s ease;
 
   &.active {
-    border-color: #09570e;
+    border-color: rgb(87, 128, 89);
     background: #09570e;
     transform: scale(1.1);
     box-shadow: var(--box-shadow);
@@ -60,7 +62,31 @@ h1{
   position: absolute;
   display: flex;
   align-items: center;
-  left: 80px;
-  gap: 10px;
-
+  top: 30px;
 }
+.auth-btn{
+  font-weight: 500;
+  background: var(--color-dark-15);
+  border-color: var(--color-light-10);
+  width: 87px;
+  height: 48px;
+  border-radius: 6px;
+  position: relative;
+  right: 180px;
+}
+button{
+  transform: none;
+  box-shadow: none;
+  translate: none;
+  transition: transform 0.9s;
+}
+button:hover {
+  background-color: var(--color-green-10);
+  color: var(--color-light);
+}
+input{
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+}
+

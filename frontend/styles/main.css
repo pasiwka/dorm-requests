@@ -178,8 +178,9 @@ svg * {
   --color-light: #FFFF;
   --color-dark-10:#242731;
   --color-dark:#141414;
-  --color-light-10: #B9B9C3;
+  --color-light-10: #263036;
   --color-light-20: #F0F2F4;
+  --color-green-10: rgba(9, 87, 14, 0.54);
   --border:1 solid var(--color-dark-15);
   --box-shadow: 0 0 10px rgb(7, 56, 10);
   --font-family-base:'Roboto',sans-serif;
@@ -203,6 +204,8 @@ body {
 .stepper {
   display: flex;
   align-items: center;
+  position: relative;
+  left: 130px;
 }
 
 .step {
@@ -214,7 +217,7 @@ body {
   transition: all 0.3s ease;
 }
 .step.active {
-  border-color: #09570e;
+  border-color: rgb(87, 128, 89);
   background: #09570e;
   transform: scale(1.1);
   box-shadow: var(--box-shadow);
@@ -250,8 +253,36 @@ h1 {
   position: absolute;
   display: flex;
   align-items: center;
-  left: 80px;
-  gap: 10px;
+  top: 30px;
+}
+
+.auth-btn {
+  font-weight: 500;
+  background: var(--color-dark-15);
+  border-color: var(--color-light-10);
+  width: 87px;
+  height: 48px;
+  border-radius: 6px;
+  position: relative;
+  right: 180px;
+}
+
+button {
+  transform: none;
+  box-shadow: none;
+  translate: none;
+  transition: transform 0.9s;
+}
+
+button:hover {
+  background-color: var(--color-green-10);
+  color: var(--color-light);
+}
+
+input {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
 }
 
 /*# sourceMappingURL=main.css.map */
