@@ -111,3 +111,8 @@ button {
   color: var(--color-grey);
   font-weight: 400;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}

@@ -8,6 +8,10 @@ notification.addEventListener("click", (e) => {
 //переходим на другую страницу
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();//позже сделаем бек логика поменяется(это чтобы не было отправки данных на сервак)
-    window.location.href = 'new-request.html';
-});
 
+    document.body.classList.add('fade-out');
+
+    setTimeout(() => {
+        window.location.href = 'new-request.html';
+    }, 500);
+});
