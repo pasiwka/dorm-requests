@@ -21,7 +21,7 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  left: 50px;
+  left: 70px;
 
   .step {
     width: 10px;
@@ -51,18 +51,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
   position: relative;
   padding: var(--container-padding);
-  margin-left: 150px;
+
+  margin-left: auto;
   margin-right: auto;
+
   width: 100%;
-  max-width: 545px;
+  max-width: 600px;
+  box-sizing: border-box;
 
   > * {
     margin: 11px;
+    box-sizing: border-box;
   }
 }
-
 .container_1 {
   position: absolute;
   display: flex;
@@ -94,7 +98,6 @@ button {
   white-space: nowrap;
 }
 
-/* Формы */
 .input-wrapper {
   width: 100%;
 
@@ -103,4 +106,8 @@ button {
     height: 60px;
     padding: 10px;
   }
+}
+.paleTest{
+  color: var(--color-grey);
+  font-weight: 400;
 }

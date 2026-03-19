@@ -27,10 +27,26 @@
     <form action="/api/auth/login" method="POST" class="container" id="loginForm">
         <h1>Новая заявка</h1>
         <p class="paleTest">Выбери категорию — мы отправим специалиста в твою комнату</p>
-        Твоя комната:
-        <span id="roomDisplay">Корпус Силикатары, 123</span>
-        <button class="edit-room-inline">[изменить]</button>
+        <p>Твоя комната: <span id="roomDisplay">Корпус Силикатары, 123</span> <button class="edit-room-inline">[изменить]</button></p>
 
+        <label class="titleLabel">
+            <input type="checkbox" value="coding" checked >Сантехник
+            <p class="paleTest">Течет кран, засор, бачок</p>
+        </label>
+
+        <label class="titleLabel">
+            <input type="checkbox" value="coding">Электрик
+            <p class="paleTest">Свет не работает, розетка, проводка</p>
+        </label>
+
+        <label class="titleLabel">
+            <input type="checkbox" value="coding">Мебель
+            <p class="paleTest">Сломалась кровать, стул, шкаф</p>
+        </label>
+
+        <h1>Подробное описание</h1>
+        <label><p class="paleTest">Напиши, что именно случилось. Чем подробнее — тем быстрее поможем.</p></label>
+        <textarea id="message" name="message" rows="4" cols="30" placeholder="Например: &quot;Капает вода из трубы под раковиной. Нужно срочно починить, потому что заливает соседей снизу&quot;"></textarea>
 
         <button type="submit" class="auth-btn ">
             <span>Отправить Заявку <img src="/frontend/pages/img/Vector_arrow.png" alt=""></span>

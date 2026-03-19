@@ -1,4 +1,3 @@
-@charset "UTF-8";
 *,
 ::before,
 ::after {
@@ -141,6 +140,10 @@ svg * {
   font-style: normal;
   font-display: swap;
 }
+.titleLabel {
+  font-weight: 700;
+}
+
 .notification {
   display: flex;
   align-items: center;
@@ -181,6 +184,7 @@ svg * {
   --color-dark:#141414;
   --color-light-10: #263036;
   --color-light-20: #F0F2F4;
+  --color-grey: #575F6E;
   --color-green-10: rgba(9, 87, 14, 0.54);
   --border:1 solid var(--color-dark-15);
   --box-shadow: 0 0 10px rgb(7, 56, 10);
@@ -213,7 +217,7 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  left: 50px;
+  left: 70px;
 }
 .stepper .step {
   width: 10px;
@@ -242,13 +246,15 @@ body {
   align-items: flex-start;
   position: relative;
   padding: var(--container-padding);
-  margin-left: 150px;
+  margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 545px;
+  max-width: 600px;
+  box-sizing: border-box;
 }
 .container > * {
   margin: 11px;
+  box-sizing: border-box;
 }
 
 .container_1 {
@@ -280,7 +286,6 @@ button {
   white-space: nowrap;
 }
 
-/* Формы */
 .input-wrapper {
   width: 100%;
 }
@@ -288,6 +293,11 @@ button {
   width: 100%;
   height: 60px;
   padding: 10px;
+}
+
+.paleTest {
+  color: var(--color-grey);
+  font-weight: 400;
 }
 
 /*# sourceMappingURL=main.css.map */
