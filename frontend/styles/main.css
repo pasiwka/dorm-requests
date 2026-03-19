@@ -1,3 +1,4 @@
+@charset "UTF-8";
 *,
 ::before,
 ::after {
@@ -201,14 +202,20 @@ body {
   background-color: var(--color-light);
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 80px;
+}
+
 .stepper {
   display: flex;
   align-items: center;
   position: relative;
   left: 50px;
 }
-
-.step {
+.stepper .step {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -216,37 +223,32 @@ body {
   background: white;
   transition: all 0.3s ease;
 }
-.step.active {
+.stepper .step.active {
   border-color: rgb(87, 128, 89);
   background: #09570e;
   transform: scale(1.1);
   box-shadow: var(--box-shadow);
 }
-
-.line {
+.stepper .line {
   width: 40px;
   height: 1.1px;
   background: var(--color-light-10);
   transition: background 0.3s ease;
 }
 
-h1 {
-  font-weight: 700;
-}
-
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   padding: var(--container-padding);
+  margin-left: 150px;
+  margin-right: auto;
+  width: 100%;
+  max-width: 545px;
 }
-
 .container > * {
   margin: 11px;
-  width: 100%;
-  max-width: 456px;
 }
 
 .container_1 {
@@ -256,40 +258,36 @@ h1 {
   top: 30px;
 }
 
-.auth-btn {
-  font-weight: 500;
-  background: var(--color-dark-15);
-  border-color: var(--color-light-10);
-  width: 87px;
-  height: 48px;
-  border-radius: 6px;
-  position: relative;
-  right: 180px;
+h1 {
+  font-weight: 700;
 }
 
 button {
   transform: none;
   box-shadow: none;
   translate: none;
-  transition: transform 0.9s;
 }
 
-button:hover {
-  background-color: var(--color-green-10);
-  color: var(--color-light);
+.auth-btn {
+  display: inline-flex;
+  padding: 8px 32px;
+  font-weight: 500;
+  background: var(--color-dark-15);
+  border-color: var(--color-light-10);
+  border-radius: 6px;
+  right: 180px;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-input {
+/* Формы */
+.input-wrapper {
+  width: 100%;
+}
+.input-wrapper input {
   width: 100%;
   height: 60px;
   padding: 10px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding-left: 80px;
 }
 
 /*# sourceMappingURL=main.css.map */
