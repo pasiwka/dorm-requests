@@ -34,26 +34,32 @@
                     <button class="notification-close" id="closeNotification"><img src="/frontend/pages/img/Vector.png" alt=""></button>
                 </div>
 
-                <div class="input-wrapper">
-                    <input
-                            type="email"
-                            name="email"
-                            class="auth-input"
-                            placeholder="your.email@dorm.ru"
-                            required
-                    >
-                </div>
+            <div class="input-wrapper">
+                <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        class="auth-input"
+                        placeholder=" "
+                        required
+                        pattern="[0-9]{11}"
+                        title="Введите 11 цифр номера телефона"
+                >
+                <label for="phone" class="floating-label">Номер телефона</label>
+            </div>
 
-                <div class="input-wrapper">
-                    <input
-                            type="password"
-                            name="password"
-                            class="auth-input"
-                            placeholder="Пароль"
-                            required
-                            minlength="6"
-                    >
-                </div>
+            <div class="input-wrapper">
+                <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="auth-input"
+                        placeholder=" "
+                        required
+                        minlength="6"
+                >
+                <label for="password" class="floating-label">Пароль</label>
+            </div>
 
                 <button type="submit" class="auth-btn">
                     <span>Вход</span>

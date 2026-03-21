@@ -1,26 +1,31 @@
 @use 'helpers' as *;
 
-:root{
+:root {
   --color-green: #09570e;
-  --color-light: #FFFF;
-  --color-dark-10:#242731;
-  --color-dark:#141414;
+  --color-light: #ffffff;
+  --color-dark-10: #242731;
+  --color-dark: #141414;
   --color-light-10: #263036;
-  --color-light-20: #F0F2F4;
-  --color-grey: #575F6E;
-
+  --color-light-20: #f0f2f4;
+  --color-grey: #575f6e;
   --color-green-10: rgba(9, 87, 14, 0.54);
+  --color-error: #dc2626;
+  --color-step-border: #b9b9c3;
+  --color-step-active-border: rgb(87, 128, 89);
 
-  --border:1 solid var(--color-dark-15);
+  --border: 1px solid var(--color-dark-15);
+  --border-radius: 6px;
 
   --box-shadow: 0 0 10px rgb(7, 56, 10);
 
+  --font-family-base: 'Roboto', sans-serif;
 
-  --font-family-base:'Roboto',sans-serif;
+  --container-padding: #{rem(80)};
 
-  --container-padding:#{rem(80)};
+  --transition-duration: 0.2s;
+  --transition-duration-slow: 0.3s;
 
-  @include laptop{
-    --container-width:#{rem(1280)};
+  @include laptop {
+    --container-width: #{rem(1280)};
   }
 }
