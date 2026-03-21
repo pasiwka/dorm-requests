@@ -217,7 +217,6 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  left: 70px;
 }
 .stepper .step {
   width: 10px;
@@ -246,10 +245,11 @@ body {
   align-items: flex-start;
   position: relative;
   padding: var(--container-padding);
+  top: -55px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   box-sizing: border-box;
 }
 .container > * {
