@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../styles/main.css">
+    <title>Заполнение профиля | CampusNet</title>
+</head>
+<body>
+<header class="header">
+    <div class="container_1">
+        <div class="logo">
+            <img src="/frontend/pages/img/Logo.svg" alt="CampusNet" class="logo-img">
+            <span class="logo-text">CampusNet</span></div>
+    </div>
+</header>
+<main>
+    <form action="/api/auth/login" method="POST" class="container" id="loginForm">
+        <div class="stepper">
+            <div class="step"></div>
+            <div class="line"></div>
+            <div class="step"></div>
+            <div class="line"></div>
+            <div class="step active"></div>
+        </div>
+
+        <h1>Заполнение профиля</h1>
+        <p class="paleTest profile">Укажи данные проживания. Это займет пару минут. Нужен только номер комнаты и корпус.</p>
+        <div><input type="checkbox">Я соглашаюсь с правилами проживания и обработкой
+            заявок</div>
+
+
+        <div class="container2">
+            <h1>Данные проживания</h1>
+        <div class="input-wrapper  input-profile">
+            <label for="name">Имя</label>
+            <input type="text" class="auth-input input-profile" id="name" placeholder="Введите имя">
+        </div>
+        <div class="input-wrapper">
+            <label for="surname">Фамилия</label>
+            <input type="text" class="auth-input" id="surname" placeholder="Введите фамилию">
+        </div>
+        <div class="input-row">
+
+            <div class="input-wrapper">
+                <input type="text" class="auth-input" id="building" placeholder=" ">
+                <label for="building" class="floating-label">Корпус</label>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="text" class="auth-input" id="room" placeholder=" ">
+                <label for="room" class="floating-label">Комната</label>
+            </div>
+
+        </div>
+        <div>
+        <button type="submit" class="auth-btn">
+            <span>Сохранить</span>
+        </button>
+        <button type="submit" class="auth-btn">
+            <span>Назад</span>
+        </button>
+        </div>
+
+        </div>
+    </form>
+</main>
+<script src="/frontend/js/scriptLogin.js" async defer></script>
+</body>
+</html>

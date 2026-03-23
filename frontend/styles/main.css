@@ -188,7 +188,7 @@ svg * {
   padding: 20px 10px 8px 10px;
   font-size: 16px;
   background-color: transparent;
-  border: 1px solid var(--color-light-10);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   transition: border-color var(--transition-duration, 0.2s);
 }
@@ -231,6 +231,30 @@ svg * {
   color: var(--color-error);
 }
 
+.input-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.container2 {
+  padding: 0 16px 16px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+  font-size: var(--font-size-small);
+}
+
+.input-profile {
+  margin-bottom: 8px;
+}
+
 :root {
   --color-green: #09570e;
   --color-light: #ffffff;
@@ -242,6 +266,7 @@ svg * {
   --color-green-10: rgba(9, 87, 14, 0.54);
   --color-error: #dc2626;
   --color-step-border: #b9b9c3;
+  --color-border:#E2E4E5;
   --color-step-active-border: rgb(87, 128, 89);
   --border: 1px solid var(--color-dark-15);
   --border-radius: 6px;
@@ -268,7 +293,7 @@ svg * {
   padding: 20px 10px 8px 10px;
   font-size: 16px;
   background-color: transparent;
-  border: 1px solid var(--color-light-10);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   transition: border-color var(--transition-duration, 0.2s);
 }
@@ -309,6 +334,30 @@ svg * {
 
 .input-wrapper input:invalid:not(:placeholder-shown) ~ .floating-label {
   color: var(--color-error);
+}
+
+.input-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.container2 {
+  padding: 0 16px 16px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+  font-size: var(--font-size-small);
+}
+
+.input-profile {
+  margin-bottom: 8px;
 }
 
 body {
@@ -421,7 +470,7 @@ h1 {
   padding: 20px 10px 8px 10px;
   font-size: 16px;
   background-color: transparent;
-  border: 1px solid var(--color-light-10);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   transition: border-color var(--transition-duration, 0.2s);
 }
@@ -462,6 +511,30 @@ h1 {
 
 .input-wrapper input:invalid:not(:placeholder-shown) ~ .floating-label {
   color: var(--color-error);
+}
+
+.input-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.container2 {
+  padding: 0 16px 16px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile {
+  font-size: var(--font-size-small);
+}
+
+.input-profile {
+  margin-bottom: 8px;
 }
 
 /*# sourceMappingURL=main.css.map */
