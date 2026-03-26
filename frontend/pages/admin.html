@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="icon" type="image/png" href="../img/Logo.png">
+
+    <title>Панель админа | CampusNet</title>
+</head>
+<body class="admin__body">
+    <div class="containerAdmin">
+        <h1>Здравствуйте, Александр Петрович!</h1>
+        <div class="input-wrapper search-wrapper">
+
+            <input type="search" class="auth-input search" id="search" placeholder=" ">
+            <label for="search" class="floating-label"><p class="search_p">Поиск </p></label>
+        </div>
+        <div class="table-container">
+            <div class="table-wrapper">
+            <h1>Заявки корпуса "Силикаты"</h1>
+            <td>
+                <select >
+                    <option value="pending" selected>Силикаты</option>
+                    <option value="approved" >Крест</option>
+                    <option value="rejected">еще..</option>
+                </select>
+            </td>
+            </div>
+        <table class="requests-table">
+            <thead>
+            <tr class="requests-table__head">
+                <th>Студент</th>
+                <th>Категория</th>
+                <th>Описание</th>
+                <th>Комната</th>
+                <th>Время</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="requests-table__head">
+                <td>
+                    <div class="student-info">
+                        <span class="student-name">Иван Петров</span>
+                    </div>
+                </td>
+                <td>
+                    <span class="category-badge">Сантехник</span>
+                </td>
+                <td class="description-cell">Течет труба под раковиной, заливает соседей</td>
+                <td>123</td>
+                <td>14:30</td>
+                <td>
+                    <span class="status-badge status-new">Новая</span>
+                </td>
+                <td class="actions-cell">
+                    <select class="status-select">
+                        <option value="pending" class="status_pending" selected>В ожидании</option>
+                        <option value="approved" class="status_approved">Принять</option>
+                        <option value="rejected" class="status_rejected">Отклонить</option>
+                        <option value="rejected" class="status_rejected">Удалить заявку</option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="requests-table__head">
+                <td>
+                    <div class="student-info">
+                        <span class="student-name">Иван Петров</span>
+                    </div>
+                </td>
+                <td>
+                    <span class="category-badge">Сантехник</span>
+                </td>
+                <td class="description-cell">Течет труба под раковиной, заливает соседей</td>
+                <td>123</td>
+                <td>14:30</td>
+                <td>
+                    <span class="status-badge status-new">Новая</span>
+                </td>
+                <td class="actions-cell">
+                    <select class="status-select">
+                        <option value="pending" class="status_pending" selected>В ожидании</option>
+                        <option value="approved" class="status_approved">Принять</option>
+                        <option value="rejected" class="status_rejected">Отклонить</option>
+                        <option value="rejected" class="status_rejected">Удалить заявку</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    </div>
+
+</body>
+</html>
