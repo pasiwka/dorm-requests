@@ -1,121 +1,100 @@
-const express = require('express');
-const cors = require('cors');
-const db = require('./database');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-const app = express();
-const PORT = 5000;
+// База данных в файле dorm.db в папке backend
+const db = new sqlite3.Database(path.join(__dirname, 'dorm.db'));
 
-app.use(cors());
-app.use(express.json());
-
-// ============= API ЭНДПОИНТЫ =============
-
-// 1. Вход по телефону
-app.post('/api/login', (req, res) => {
-    const { phone } = req.body;
-
-    db.get(`SELECT * FROM users WHERE phone = ?`, [phone], (err, user) => {
+db.serialize(() => {
+    // Таблица пользователей
+    db.run(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            phone TEXT UNIQUE,
+            password TEXT,
+            role TEXT,
+            first_name TEXT,
+            last_name TEXT,
+            room_number TEXT,
+            building TEXT
+        )
+    `, (err) => {
         if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-
-        if (user) {
-            res.json({ success: true, role: user.role, user: user });
+            console.error('Ошибка создания таблицы users:', err.message);
         } else {
-            // Новый студент
-            db.run(`INSERT INTO users (phone, role) VALUES (?, 'student')`, [phone], function(err) {
+            console.log('✅ Таблица users создана/проверена');
+        }
+    });
+
+    // Таблица заявок
+    db.run(`
+        CREATE TABLE IF NOT EXISTS requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            who_needed TEXT,
+            description TEXT,
+            status TEXT DEFAULT 'pending',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            room_number TEXT,
+            building TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    `, (err) => {
+        if (err) {
+            console.error('Ошибка создания таблицы requests:', err.message);
+        } else {
+            console.log('✅ Таблица requests создана/проверена');
+        }
+    });
+
+    // После создания таблиц добавляем пользователей
+    setTimeout(() => {
+        // Очищаем таблицу от старых данных, чтобы избежать конфликтов
+        db.run(`DELETE FROM users`, (err) => {
+            if (err) {
+                console.error('Ошибка очистки таблицы users:', err.message);
+            } else {
+                console.log('✅ Таблица users очищена');
+            }
+        });
+
+        // Добавляем админа (НОВЫЙ ТЕЛЕФОН: 89999992233, пароль: 11111111)
+        db.run(`
+            INSERT INTO users (phone, password, role, first_name, last_name) 
+            VALUES ('89999992233', '11111111', 'admin', 'Ольга', 'Павлюченкова')
+        `, (err) => {
+            if (err) {
+                console.error('Ошибка добавления админа:', err.message);
+            } else {
+                console.log('✅ Админ добавлен: Ольга Павлюченкова (89999992233)');
+            }
+        });
+
+        // Добавляем студента
+        db.run(`
+            INSERT INTO users (phone, password, role, first_name, last_name) 
+            VALUES ('89174566722', '11111111', 'student', 'Иван', 'Иванов')
+        `, (err) => {
+            if (err) {
+                console.error('Ошибка добавления студента:', err.message);
+            } else {
+                console.log('✅ Студент добавлен: Иван Иванов (89174566722)');
+            }
+        });
+
+        // Проверяем, что добавилось
+        setTimeout(() => {
+            db.all(`SELECT id, phone, role, first_name, last_name FROM users`, [], (err, users) => {
                 if (err) {
-                    return res.status(500).json({ error: err.message });
+                    console.error('Ошибка проверки:', err.message);
+                } else {
+                    console.log('\n📋 Текущие пользователи в БД:');
+                    users.forEach(user => {
+                        console.log(`   - ${user.first_name} ${user.last_name} (${user.phone}) - ${user.role}`);
+                    });
                 }
-                db.get(`SELECT * FROM users WHERE id = ?`, [this.lastID], (err, newUser) => {
-                    res.json({ success: true, role: 'student', user: newUser });
-                });
             });
-        }
-    });
+        }, 100);
+    }, 100);
 });
 
-// 2. Заполнение профиля
-app.put('/api/profile', (req, res) => {
-    const { userId, firstName, lastName, roomNumber, building } = req.body;
-
-    db.run(`
-        UPDATE users 
-        SET first_name = ?, last_name = ?, room_number = ?, building = ?
-        WHERE id = ?
-    `, [firstName, lastName, roomNumber, building, userId], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ success: true });
-    });
-});
-
-// 3. Создать заявку
-app.post('/api/requests', (req, res) => {
-    const { userId, whoNeeded, description, roomNumber, building } = req.body;
-
-    db.run(`
-        INSERT INTO requests (user_id, who_needed, description, room_number, building)
-        VALUES (?, ?, ?, ?, ?)
-    `, [userId, whoNeeded, description, roomNumber, building], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ success: true, requestId: this.lastID });
-    });
-});
-
-// 4. Получить заявки студента
-app.get('/api/requests/:userId', (req, res) => {
-    const userId = req.params.userId;
-
-    db.all(`SELECT * FROM requests WHERE user_id = ? ORDER BY created_at DESC`, [userId], (err, requests) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(requests);
-    });
-});
-
-// 5. Админ: получить все заявки
-app.get('/api/admin/requests', (req, res) => {
-    db.all(`
-        SELECT requests.*, users.first_name, users.last_name 
-        FROM requests 
-        JOIN users ON requests.user_id = users.id
-        ORDER BY created_at DESC
-    `, [], (err, requests) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(requests);
-    });
-});
-
-// 6. Админ: изменить статус заявки
-app.put('/api/admin/requests/:id', (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    db.run(`UPDATE requests SET status = ? WHERE id = ?`, [status, id], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ success: true });
-    });
-});
-
-// Запуск сервера
-app.listen(PORT, () => {
-    console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
-});
-// Временный эндпоинт для проверки базы
-app.get('/api/users', (req, res) => {
-    db.all(`SELECT * FROM users`, [], (err, users) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(users);
-    });
-});
+module.exports = db;
