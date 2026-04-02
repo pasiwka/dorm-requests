@@ -1,100 +1,92 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const express = require('express');
+const cors = require('cors');
+const db = require('./database');
+const http = require("node:http");
 
-// База данных в файле dorm.db в папке backend
-const db = new sqlite3.Database(path.join(__dirname, 'dorm.db'));
+const app = express();
+const PORT = 3000;
 
-db.serialize(() => {
-    // Таблица пользователей
-    db.run(`
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            phone TEXT UNIQUE,
-            password TEXT,
-            role TEXT,
-            first_name TEXT,
-            last_name TEXT,
-            room_number TEXT,
-            building TEXT
-        )
-    `, (err) => {
-        if (err) {
-            console.error('Ошибка создания таблицы users:', err.message);
-        } else {
-            console.log('✅ Таблица users создана/проверена');
-        }
+app.use(cors());
+app.use(express.json());
+
+
+app.post('/api/login', (req, res) => {
+    const { phone, password } = req.body;
+
+    db.get(`SELECT * FROM users WHERE phone = ?`, [phone], (err, user) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!user) return res.status(401).json({ error: 'Пользователь не найден' });
+        if (password !== user.password) return res.status(401).json({ error: 'Неверный пароль' });
+
+        res.json({
+            success: true,
+            user: {
+                id: user.id,
+                phone: user.phone,
+                role: user.role,
+                firstName: user.first_name,
+                lastName: user.last_name
+            }
+        });
     });
-
-    // Таблица заявок
-    db.run(`
-        CREATE TABLE IF NOT EXISTS requests (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER,
-            who_needed TEXT,
-            description TEXT,
-            status TEXT DEFAULT 'pending',
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            room_number TEXT,
-            building TEXT,
-            FOREIGN KEY (user_id) REFERENCES users(id)
-        )
-    `, (err) => {
-        if (err) {
-            console.error('Ошибка создания таблицы requests:', err.message);
-        } else {
-            console.log('✅ Таблица requests создана/проверена');
-        }
-    });
-
-    // После создания таблиц добавляем пользователей
-    setTimeout(() => {
-        // Очищаем таблицу от старых данных, чтобы избежать конфликтов
-        db.run(`DELETE FROM users`, (err) => {
-            if (err) {
-                console.error('Ошибка очистки таблицы users:', err.message);
-            } else {
-                console.log('✅ Таблица users очищена');
-            }
-        });
-
-        // Добавляем админа (НОВЫЙ ТЕЛЕФОН: 89999992233, пароль: 11111111)
-        db.run(`
-            INSERT INTO users (phone, password, role, first_name, last_name) 
-            VALUES ('89999992233', '11111111', 'admin', 'Ольга', 'Павлюченкова')
-        `, (err) => {
-            if (err) {
-                console.error('Ошибка добавления админа:', err.message);
-            } else {
-                console.log('✅ Админ добавлен: Ольга Павлюченкова (89999992233)');
-            }
-        });
-
-        // Добавляем студента
-        db.run(`
-            INSERT INTO users (phone, password, role, first_name, last_name) 
-            VALUES ('89174566722', '11111111', 'student', 'Иван', 'Иванов')
-        `, (err) => {
-            if (err) {
-                console.error('Ошибка добавления студента:', err.message);
-            } else {
-                console.log('✅ Студент добавлен: Иван Иванов (89174566722)');
-            }
-        });
-
-        // Проверяем, что добавилось
-        setTimeout(() => {
-            db.all(`SELECT id, phone, role, first_name, last_name FROM users`, [], (err, users) => {
-                if (err) {
-                    console.error('Ошибка проверки:', err.message);
-                } else {
-                    console.log('\n📋 Текущие пользователи в БД:');
-                    users.forEach(user => {
-                        console.log(`   - ${user.first_name} ${user.last_name} (${user.phone}) - ${user.role}`);
-                    });
-                }
-            });
-        }, 100);
-    }, 100);
 });
 
-module.exports = db;
+app.get('/api/requests', (req, res) => {
+    db.all(`
+        SELECT r.*, u.first_name, u.last_name, c.name as category_name, c.icon, rm.room_number, b.name as building_name
+        FROM requests r
+        JOIN users u ON r.user_id = u.id
+        JOIN request_categories c ON r.category_id = c.id
+        JOIN rooms rm ON r.room_id = rm.id
+        JOIN buildings b ON rm.building_id = b.id
+        ORDER BY r.created_at DESC
+    `, (err, requests) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(requests);
+    });
+});
+
+app.get('/api/requests/user/:userId', (req, res) => {
+    const { userId } = req.params;
+
+    db.all(`
+        SELECT r.*, c.name as category_name, c.icon, rm.room_number, b.name as building_name
+        FROM requests r
+                 JOIN request_categories c ON r.category_id = c.id
+                 JOIN rooms rm ON r.room_id = rm.id
+                 JOIN buildings b ON rm.building_id = b.id
+        WHERE r.user_id = ?
+        ORDER BY r.created_at DESC
+    `, [userId], (err, requests) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(requests);
+    });
+});
+
+app.post('/api/requests', (req, res) => {
+    const { user_id, category_id, description, room_id } = req.body;
+
+    db.run(`
+        INSERT INTO requests (user_id, category_id, description, room_id, status)
+        VALUES (?, ?, ?, ?, 'pending')
+    `, [user_id, category_id, description, room_id], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true, requestId: this.lastID });
+    });
+});
+
+app.put('/api/requests/:id/status', (req, res) => {
+    const { id } = req.params;
+    const { status, admin_comment } = req.body;
+
+    db.run(`
+        UPDATE requests
+        SET status = ?, updated_at = CURRENT_TIMESTAMP, admin_comment = ?
+        WHERE id = ?
+    `, [status, admin_comment, id], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true });
+    });
+});
+
+// http://localhost:3000
