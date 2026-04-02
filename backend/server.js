@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./database');
-const http = require("node:http");
 
 const app = express();
 const PORT = 3000;
@@ -89,4 +88,6 @@ app.put('/api/requests/:id/status', (req, res) => {
     });
 });
 
-// http://localhost:3000
+app.listen(PORT, () => {
+    console.log(`Сервер на http://localhost:${PORT}`);
+});
