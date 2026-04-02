@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="icon" type="image/png" href="../img/Logo.png">
+    <title>Мои заявки | CampusNet</title>
+</head>
+<body >
+<header class="header">
+    <div class="container_1">
+        <div class="logo">
+            <img src="img/Logo.svg" alt="CampusNet" class="logo-img">
+            <span class="logo-text">CampusNet</span>
+        </div>
+    </div>
+</header>
+<div class="student-container">
+    <div class="student-card">
+        <div>
+            <div class="tracking-title"><h1>Мои заявки</h1></div>
+        </div>
+        <ul class="filter-list">
+            <li class="filter-item active">Все</li>
+            <li class="filter-item">В ожидании</li>
+            <li class="filter-item">Принято</li>
+            <li class="filter-item">Отклонено</li>
+        </ul>
+        <div class="requests-list" id="requestsList">
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner"></div>
+                <p>Загрузка заявок...</p>
+            </div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <h3>У вас пока нет заявок</h3>
+            </div>
+        </div>
+        <button type="submit" class="auth-btn"><p>Назад</p>
+        </button>
+    </div>
+
+</div>
+
+<script src="../js/scriptTracking.js" defer></script>
+</body>
+</html>

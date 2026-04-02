@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <title>Студент | CampusNet</title>
+</head>
+<body>
+<header class="header">
+    <div class="container_1">
+        <div class="logo">
+            <img src="img/Logo.svg" alt="CampusNet" class="logo-img">
+            <span class="logo-text">CampusNet</span>
+        </div>
+    </div>
+</header>
+<div class="student-container">
+    <div class="student-card">
+        <div class="student-name" id="studentName">Загрузка...</div>
+        <div class="student-info" id="studentInfo"></div>
+
+        <div class="menu-buttons">
+            <button class="menu-btn" onclick="goToProfile()">Заполнить профиль</button>
+            <button class="menu-btn" onclick="goToNewRequest()">Оставить заявку</button>
+            <button class="menu-btn" onclick="goToRequests()">Посмотреть статус заявок</button>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Выйти</button>
+    </div>
+</div>
+
+<script src="../js/scriptStudent.js" defer></script>
+</body>
+</html>

@@ -40,3 +40,137 @@
 .notification-text{
   font-size: 12px;
 }
+
+
+ .student-container {
+   min-height: 100vh;
+   padding: 40px 20px;
+   background: #f5f7fa;
+ }
+.student-card {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.student-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+.student-info {
+  color: #666;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.menu-btn {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.menu-btn:hover {
+  background: var(--color-dark-10);
+  color: white;
+  border-color: var(--color-dark-10);
+  transform: translateX(5px);
+}
+.logout-btn {
+  margin-top: 30px;
+  padding: 12px;
+  background: var(--color-light);
+  color: var(--color-dark-10);
+  border:1px solid var(--color-dark-10);
+  border-radius: 10px;
+  cursor: pointer;
+  width: 50%;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+.logout-btn:hover {
+  background: var(--color-dark-10);
+  color: white;
+}
+
+.filter-list{
+  display: flex;
+  gap:40px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  width: 100%;
+}
+.filter-item{
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px;
+  background: var(--color-light);
+  color: var(--color-dark-10);
+  border:1px solid var(--color-dark-10);
+  border-radius: 10px;
+  font-size: 15px;
+}
+.filter-item:hover {
+  background: var(--color-dark-10);
+  color: white;
+}
+.tracking-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 12px;
+  font-size: 16px;
+}
+.request-card-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+.request-card-description{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  font-size: 16px;
+
+}
+.request-card-footer{
+  padding-top: 10px;
+  display: flex;
+  font-size: 13px;
+  color: var(--color-grey);
+}
+
+.request-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.status-pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+.status-approved {
+  background: #d1fae5;
+  color: #059669;
+}
+.status-rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
