@@ -52,7 +52,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             document.body.classList.add('fade-out');
 
             setTimeout(() => {
-                if (data.role === 'admin') {
+                if (data.user.role === 'admin') {
                     window.location.href = 'admin.html';
                 } else {
                     window.location.href = 'student.html';
