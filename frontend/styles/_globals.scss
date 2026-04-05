@@ -103,3 +103,20 @@ h1 {
   opacity: 0;
   transition: opacity var(--transition-duration-slow, 0.5s) ease;
 }
+
+a,
+button,
+input,
+textarea,
+select,
+.auth-btn,
+.menu-btn,
+.fab-btn,
+.filter-list li,
+.request-card,
+.status-select {
+  transition: all 0.2s ease;
+}
+html {
+  scroll-behavior: smooth;
+}

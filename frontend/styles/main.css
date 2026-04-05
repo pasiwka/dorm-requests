@@ -1,3 +1,4 @@
+@charset "UTF-8";
 *,
 ::before,
 ::after {
@@ -119,6 +120,31 @@ svg * {
     scroll-behavior: auto !important;
   }
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-green);
+}
+
+/* Для Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-green) #2a2a2a;
+}
+
 .btn-approve {
   background: #5fc966;
   color: #fff;
@@ -260,6 +286,15 @@ svg * {
 }
 .titleLabel {
   font-weight: 700;
+}
+
+.request-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .notification {
@@ -805,6 +840,24 @@ h1 {
 .fade-out {
   opacity: 0;
   transition: opacity var(--transition-duration-slow, 0.5s) ease;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+.auth-btn,
+.menu-btn,
+.fab-btn,
+.filter-list li,
+.request-card,
+.status-select {
+  transition: all 0.2s ease;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .input-wrapper {
