@@ -64,7 +64,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     } catch (error) {
         console.error('Ошибка:', error);
-        showError('Ошибка подключения к серверу. Убедитесь, что сервер запущен (npm run server)');
+        showError('Ошибка подключения к серверу.');
         const submitBtn = document.querySelector('.auth-btn');
         submitBtn.innerHTML = '<span>Вход</span>';
         submitBtn.disabled = false;

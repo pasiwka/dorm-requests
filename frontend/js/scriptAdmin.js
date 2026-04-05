@@ -1,4 +1,3 @@
-// Форматирование даты
 function formatDate(dateStr) {
     const date = new Date(dateStr);
     const now = new Date();
@@ -16,12 +15,12 @@ function formatDate(dateStr) {
     }
 }
 
-// Получение CSS-класса для статуса
 function getStatusClass(status) {
     const map = {
-        'pending': 'status-new',     // или 'status-pending'
+        'pending': 'status-new',
         'approved': 'status-approved',
-        'rejected': 'status-rejected'
+        'rejected': 'status-rejected',
+        'done': 'status-done',
     };
     return map[status] || 'status-new';
 }
@@ -30,82 +29,162 @@ function getStatusText(status) {
     const map = {
         'pending': 'В ожидании',
         'approved': 'Принята',
-        'rejected': 'Отклонена'
+        'rejected': 'Отклонена',
+        'done': 'Выполнена'
     };
     return map[status] || status;
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-    const tableItem = document.querySelector('tbody');
+function showError(message) {
 
-    try {
-        const response = await fetch('http://localhost:3000/api/requests', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+    let errorDiv = document.getElementById('adminError');
 
-        const requests = await response.json();
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.id = 'adminError';
+        errorDiv.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+        `;
+        document.body.appendChild(errorDiv);
+    }
 
-        function renderRequests(requests) {
-            const tbody = document.querySelector('tbody');
-            tbody.innerHTML = '';
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
 
-            // Проходим по каждой заявке из массива
-            requests.forEach(request => {
-                const row = document.createElement('tr');
-                row.className = 'requests-table__head';
-                const studentCell = document.createElement('td');
+    setTimeout(() => {
+        errorDiv.style.display = 'none';
+    }, 3000);
+}
 
-                studentCell.innerHTML = `
+function renderRequests(requests, tbody) {
+    tbody.innerHTML = '';
+
+    requests.forEach(request => {
+        const row = document.createElement('tr');
+        row.className = 'requests-table__head';
+
+        const studentCell = document.createElement('td');
+        studentCell.innerHTML = `
             <div class="student-info">
                 <span class="student-name">${request.first_name} ${request.last_name}</span>
             </div>
         `;
-                row.appendChild(studentCell);
+        row.appendChild(studentCell);
 
-                const categoryCell = document.createElement('td');
-                categoryCell.innerHTML =
-                    `<span class="category-badge">${request.category_name}</span>`;
-                row.appendChild(categoryCell);
+        const categoryCell = document.createElement('td');
+        categoryCell.innerHTML = `<span class="category-badge">${request.category_name}</span>`;
+        row.appendChild(categoryCell);
 
-                const descCell = document.createElement('td');
-                descCell.className = 'description-cell';
-                descCell.textContent = request.description;
-                row.appendChild(descCell);
+        const descCell = document.createElement('td');
+        descCell.className = 'description-cell';
+        descCell.textContent = request.description;
+        row.appendChild(descCell);
 
-                const roomCell = document.createElement('td');
-                roomCell.textContent = request.room_number;
-                row.appendChild(roomCell);
+        const roomCell = document.createElement('td');
+        roomCell.textContent = request.room_number;
+        row.appendChild(roomCell);
 
-                const timeCell = document.createElement('td');
-                timeCell.textContent = formatDate(request.created_at);
-                row.appendChild(timeCell);
+        const timeCell = document.createElement('td');
+        timeCell.textContent = formatDate(request.created_at);
+        row.appendChild(timeCell);
 
-                const statusCell = document.createElement('td');
-                const statusClass = getStatusClass(request.status);
-                const statusText = getStatusText(request.status);
-                statusCell.innerHTML = `<span class="status-badge ${statusClass}">${statusText}</span>`;
-                row.appendChild(statusCell);
+        const statusCell = document.createElement('td');
+        const statusClass = getStatusClass(request.status);
+        const statusText = getStatusText(request.status);
+        statusCell.innerHTML = `<span class="status-badge ${statusClass}">${statusText}</span>`;
+        row.appendChild(statusCell);
 
-                const actionsCell = document.createElement('td');
-                actionsCell.className = 'actions-cell';
-                actionsCell.innerHTML = `
+        const actionsCell = document.createElement('td');
+        actionsCell.className = 'actions-cell';
+        actionsCell.innerHTML = `
             <select class="status-select" data-request-id="${request.id}">
                 <option value="pending" ${request.status === 'pending' ? 'selected' : ''}>В ожидании</option>
                 <option value="approved" ${request.status === 'approved' ? 'selected' : ''}>Принять</option>
                 <option value="rejected" ${request.status === 'rejected' ? 'selected' : ''}>Отклонить</option>
+                <option value="done" ${request.status === 'done' ? 'selected' : ''}>Выполнена</option>
             </select>
         `;
-                row.appendChild(actionsCell);
-                tbody.appendChild(row);
-            });
+        row.appendChild(actionsCell);
+
+        tbody.appendChild(row);
+    });
+}
+
+
+async function loadRequests(tbody) {
+    try {
+        const response = await fetch('http://localhost:3000/api/requests', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка HTTP: ${response.status}`);
         }
 
-        renderRequests(requests);
+        const requests = await response.json();
+        renderRequests(requests, tbody);
 
-    }catch (error) {
-    console.error('Ошибка:', error);
+    } catch (error) {
+        console.error('Ошибка загрузки:', error);
+        tbody.innerHTML = '<tr><td colspan="7">Ошибка загрузки заявок</td></tr>';
+    }
 }
+
+
+function setupStatusChangeHandler(tbody) {
+    tbody.addEventListener('change', async function(event) {
+        const select = event.target;
+        if (!select.classList.contains('status-select')) return;
+
+        const requestId = select.dataset.requestId;
+        const newStatus = select.value;
+        const oldStatusValue = select.value;
+
+        select.disabled = true;
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/requests/${requestId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus, admin_comment: "" })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                const row = select.closest('tr');
+                const statusCell = row.querySelector('.status-badge');
+                statusCell.textContent = getStatusText(newStatus);
+                statusCell.className = `status-badge ${getStatusClass(newStatus)}`;
+            } else {
+                select.value = oldStatusValue;
+                showError(data.error || 'Не удалось изменить статус');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            select.value = oldStatusValue;
+            showError('Ошибка подключения к серверу');
+        } finally {
+            select.disabled = false;
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+    const tbody = document.querySelector('tbody');
+
+    if (!tbody) {
+        console.error('Таблица не найдена');
+        return;
+    }
+    await loadRequests(tbody);
+    setupStatusChangeHandler(tbody);
 });

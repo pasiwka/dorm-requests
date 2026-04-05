@@ -1,85 +1,28 @@
 let allRequests = [];
 let currentFilter = 'all';
 
-const demoRequests = [
-    {
-        id: 1,
-        who_needed: 'Сантехник',
-        description: 'Течёт кран на кухне, вода капает постоянно, нужно заменить прокладку',
-        status: 'pending',
-        room_number: '101',
-        building: 'Силикаты',
-        created_at: '2026-04-02 10:30:00'
-    },
-    {
-        id: 2,
-        who_needed: 'Электрик',
-        description: 'Не работает розетка на кухне, выбивает пробки',
-        status: 'approved',
-        room_number: '102',
-        building: 'Силикаты',
-        created_at: '2026-04-02 09:15:00'
-    },
-    {
-        id: 3,
-        who_needed: 'Сантехник',
-        description: 'Засор в раковине в ванной, вода не уходит',
-        status: 'rejected',
-        room_number: '103',
-        building: 'Крест',
-        created_at: '2026-04-01 16:45:00'
-    },
-    {
-        id: 4,
-        who_needed: 'Мебель',
-        description: 'Сломалась спинка кровати, нужно починить',
-        status: 'pending',
-        room_number: '104',
-        building: 'Силикаты',
-        created_at: '2026-04-01 14:20:00'
-    },
-    {
-        id: 5,
-        who_needed: 'Электрик',
-        description: 'Лампочка перегорела в коридоре',
-        status: 'approved',
-        room_number: '105',
-        building: 'Крест',
-        created_at: '2026-03-31 11:00:00'
-    },
-    {
-        id: 6,
-        who_needed: 'Сантехник',
-        description: 'Сломалась кнопка слива на унитазе',
-        status: 'rejected',
-        room_number: '106',
-        building: 'Силикаты',
-        created_at: '2026-03-30 08:30:00'
-    },
-    {
-        id: 7,
-        who_needed: 'Мебель',
-        description: 'Шкаф разваливается, дверца отпала',
-        status: 'pending',
-        room_number: '107',
-        building: 'Крест',
-        created_at: '2026-04-02 12:00:00'
-    },
-    {
-        id: 8,
-        who_needed: 'Электрик',
-        description: 'Нет света в ванной комнате',
-        status: 'approved',
-        room_number: '108',
-        building: 'Силикаты',
-        created_at: '2026-04-01 09:30:00'
-    }
-];
 
-document.addEventListener('DOMContentLoaded', () => {
-    allRequests = [...demoRequests];
-    renderRequests();
-    setupFilters();
+document.addEventListener('DOMContentLoaded', async () => {
+    const userId = localStorage.getItem('userId');
+
+    if (!userId) {
+        window.location.href = '../pages/login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/requests/user/${userId}`,{
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const requests = await response.json();
+        allRequests = requests;
+        renderRequests();
+        setupFilters();
+    }catch(err) {
+        console.error('Ошибка загрузки:', error);
+        showError('Не удалось загрузить заявки');
+    }
 });
 
 function setupFilters() {
@@ -147,11 +90,9 @@ function createRequestCard(request) {
     card.innerHTML = `
         <div class="request-card-footer">
             <span class="request-date"> ${formattedDate}</span>
-            <span class="request-room"> ${request.building}, ${request.room_number}</span>
-        </div>
+            <span class="request-room"> ${request.building_name}, ${request.room_number}</span>        </div>
         <div class="request-card-header">
-            <span class="request-category">${request.who_needed}</span>
-            <span class="request-status ${statusClass}">${statusText}</span>
+            <span class="request-category">${request.category_name}</span>            <span class="request-status ${statusClass}">${statusText}</span>
         </div>
         <div class="request-card-description">${truncateText(request.description, 80)}</div>
   
