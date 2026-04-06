@@ -18,7 +18,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const password = document.getElementById('password').value;
 
     try {
-        const submitBtn = document.querySelector('.auth-btn');
+        const submitBtn = document.querySelector('.button--primary');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<span>Вход...</span>';
         submitBtn.disabled = true;
@@ -65,7 +65,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     } catch (error) {
         console.error('Ошибка:', error);
         showError('Ошибка подключения к серверу.');
-        const submitBtn = document.querySelector('.auth-btn');
+        const submitBtn = document.querySelector('.button--primary');
         submitBtn.innerHTML = '<span>Вход</span>';
         submitBtn.disabled = false;
     }

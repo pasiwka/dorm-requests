@@ -10,56 +10,57 @@
 </head>
 <body>
 <header class="header">
-    <div class="container_1">
+    <div class="header__container">
         <div class="logo">
-            <img src="/frontend/pages/img/Logo.svg" alt="CampusNet" class="logo-img">
-            <span class="logo-text">CampusNet</span></div>
+            <img src="/frontend/pages/img/Logo.svg" alt="CampusNet" class="logo__image">
+            <span class="logo__text">CampusNet</span></div>
     </div>
 </header>
 <main>
     <form action="/api/auth/login" method="POST" class="container" id="loginForm">
         <div class="stepper">
-            <div class="step"></div>
-            <div class="line"></div>
-            <div class="step"></div>
-            <div class="line"></div>
-            <div class="step active"></div>
+            <div class="stepper__step"></div>
+            <div class="stepper__line"></div>
+            <div class="stepper__step"></div>
+            <div class="stepper__line"></div>
+            <div class="stepper__step active"></div>
         </div>
 
         <h1>Заполнение профиля</h1>
-        <p class="paleTest profile">Укажи данные проживания. Это займет пару минут. Нужен только номер комнаты и корпус.</p>
+        <p class="request__description profile">Укажи данные проживания. Это займет пару минут. Нужен только номер комнаты и корпус.</p>
         <div><input type="checkbox">Я соглашаюсь с правилами проживания и обработкой
             заявок</div>
 
 
-        <div class="container2">
+        <div class="request__section">
+
             <h1>Данные проживания</h1>
-        <div class="input-wrapper  input-profile">
+        <div class="input-group  profile__input">
             <label for="name">Имя</label>
-            <input type="text" class="auth-input input-profile" id="name" placeholder="Введите имя">
+            <input type="text" class="input-group__field profile__input" id="name" placeholder="Введите имя">
         </div>
-        <div class="input-wrapper">
+        <div class="input-group">
             <label for="surname">Фамилия</label>
-            <input type="text" class="auth-input" id="surname" placeholder="Введите фамилию">
+            <input type="text" class="input-group__field" id="surname" placeholder="Введите фамилию">
         </div>
         <div class="input-row">
 
-            <div class="input-wrapper">
-                <input type="text" class="auth-input" id="building" placeholder=" ">
-                <label for="building" class="floating-label">Корпус</label>
+            <div class="input-group">
+                <input type="text" class="input-group__field" id="building" placeholder=" ">
+                <label for="building" class="input-group__label">Корпус</label>
             </div>
 
-            <div class="input-wrapper">
-                <input type="text" class="auth-input" id="room" placeholder=" ">
-                <label for="room" class="floating-label">Комната</label>
+            <div class="input-group">
+                <input type="text" class="input-group__field" id="room" placeholder=" ">
+                <label for="room" class="input-group__label">Комната</label>
             </div>
 
         </div>
         <div>
-        <button type="submit" class="auth-btn">
+        <button type="submit" class="button--primary">
             <span>Сохранить</span>
         </button>
-        <button type="submit" class="auth-btn">
+        <button type="submit" class="button--primary">
             <span>Назад</span>
         </button>
         </div>

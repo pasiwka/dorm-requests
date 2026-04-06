@@ -10,46 +10,46 @@
 </head>
 <body>
 <header class="header">
-    <div class="container_1">
+    <div class="header__container">
         <div class="logo">
-            <img src="/frontend/pages/img/Logo.svg" alt="CampusNet" class="logo-img">
-            <span class="logo-text">CampusNet</span></div>
+            <img src="/frontend/pages/img/Logo.svg" alt="CampusNet" class="logo__image">
+            <span class="logo__text">CampusNet</span></div>
 
     </div>
 </header>
 <main>
     <form class="container" id="newRequestForm">
         <div class="stepper">
-            <div class="step"></div>
-            <div class="line"></div>
-            <div class="step active"></div>
-            <div class="line"></div>
-            <div class="step"></div>
+            <div class="stepper__step"></div>
+            <div class="stepper__line"></div>
+            <div class="stepper__step active"></div>
+            <div class="stepper__line"></div>
+            <div class="stepper__step"></div>
         </div>
-        <div class="container2">
+        <div class="request__section">
         <h1>Новая заявка</h1>
-        <p class="paleTest">Выбери категорию — мы отправим специалиста в твою комнату</p>
-        <p>Твоя комната: <span id="roomDisplay">Корпус Силикатары, 123</span> <button class="edit-room-inline">[изменить]</button></p>
-            <label class="titleLabel">
+        <p class="request__description">Выбери категорию — мы отправим специалиста в твою комнату</p>
+        <p>Твоя комната: <span id="roomDisplay">Корпус Силикатары, 123</span> <button class="request__edit-button">[изменить]</button></p>
+            <label class="request__category">
                 <input type="radio" name="category" value="1" checked> Сантехник
-                <p class="paleTest description">Течет кран, засор, бачок</p>
+                <p class="request__description description">Течет кран, засор, бачок</p>
             </label>
 
-            <label class="titleLabel">
+            <label class="request__category">
                 <input type="radio" name="category" value="2"> Электрик
-                <p class="paleTest description">Свет не работает, розетка, проводка</p>
+                <p class="request__description description">Свет не работает, розетка, проводка</p>
             </label>
 
-            <label class="titleLabel">
+            <label class="request__category">
                 <input type="radio" name="category" value="3"> Мебель
-                <p class="paleTest description">Сломалась кровать, стул, шкаф</p>
+                <p class="request__description description">Сломалась кровать, стул, шкаф</p>
             </label>
 
         <h1>Подробное описание</h1>
-        <label><p class="paleTest">Напиши, что именно случилось. Чем подробнее — тем быстрее поможем.</p></label>
+        <label><p class="request__description">Напиши, что именно случилось. Чем подробнее — тем быстрее поможем.</p></label>
         <textarea id="message" name="message" rows="4" cols="30" placeholder="Например: &quot;Капает вода из трубы под раковиной. Нужно срочно починить, потому что заливает соседей снизу&quot;"></textarea>
 
-        <button type="submit" class="auth-btn" id="buttonAdded">
+        <button type="submit" class="button--primary" id="buttonAdded">
             <span>Отправить Заявку</span>
         </button>
             </div>

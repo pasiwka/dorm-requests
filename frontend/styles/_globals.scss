@@ -9,6 +9,28 @@ body {
   background-color: var(--color-light);
 }
 
+h1 {
+  font-weight: 700;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity var(--transition-duration-slow, 0.5s) ease;
+}
+
+a, button, input, textarea, select,
+.button--primary,
+.menu-btn,
+.fab-btn,
+.filter-list li,
+.request-card,
+.status-select {
+  transition: all 0.2s ease;
+}
 .logo {
   display: flex;
   align-items: center;
@@ -16,12 +38,18 @@ body {
   padding-left: 80px;
 }
 
+.header__container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 30px;
+}
 .stepper {
   display: flex;
   align-items: center;
   position: relative;
 
-  .step {
+  &__step {
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -37,7 +65,7 @@ body {
     }
   }
 
-  .line {
+  &__line {
     width: 40px;
     height: 1.1px;
     background: var(--color-light-10);
@@ -64,23 +92,12 @@ body {
   }
 }
 
-.container_1 {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  top: 30px;
-}
-
-h1 {
-  font-weight: 700;
-
-}
-.h1_login{
+.login__title {
   padding-top: 0;
   margin: 0;
 }
 
-.auth-btn {
+.button--primary {
   display: inline-flex;
   padding: 8px 32px;
   font-size: 14px;
@@ -92,36 +109,15 @@ h1 {
   white-space: nowrap;
   border: 1px solid var(--color-dark-10);
   transition: all var(--transition-duration) ease;
+
   &:hover {
     color: white;
     background-color: var(--color-dark-10);
   }
 }
 
-.paleTest {
+.request__description {
   color: var(--color-grey);
   font-weight: 400;
   font-size: 14px;
-}
-
-.fade-out {
-  opacity: 0;
-  transition: opacity var(--transition-duration-slow, 0.5s) ease;
-}
-
-a,
-button,
-input,
-textarea,
-select,
-.auth-btn,
-.menu-btn,
-.fab-btn,
-.filter-list li,
-.request-card,
-.status-select {
-  transition: all 0.2s ease;
-}
-html {
-  scroll-behavior: smooth;
 }

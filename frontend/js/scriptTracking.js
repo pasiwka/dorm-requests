@@ -154,7 +154,7 @@ function closeModal() {
 }
 
 
-document.querySelector('.auth-btn')?.addEventListener('click', () => {
+document.querySelector('.button--primary')?.addEventListener('click', () => {
     window.location.href = '../pages/student.html';
 });
 

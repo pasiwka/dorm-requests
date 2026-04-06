@@ -11,24 +11,24 @@
 </head>
 <body>
 <header class="header">
-    <div class="container_1">
+    <div class="header__container">
         <div class="logo">
-            <img src="img/Logo.svg" alt="CampusNet" class="logo-img">
-            <span class="logo-text">CampusNet</span>
+            <img src="img/Logo.svg" alt="CampusNet" class="logo__image">
+            <span class="logo__text">CampusNet</span>
         </div>
     </div>
 </header>
 <main class="login">
     <form class="container" id="loginForm">
         <div class="stepper">
-            <div class="step active"></div>
-            <div class="line"></div>
-            <div class="step"></div>
-            <div class="line"></div>
-            <div class="step"></div>
+            <div class="stepper__step active"></div>
+            <div class="stepper__line"></div>
+            <div class="stepper__step"></div>
+            <div class="stepper__line"></div>
+            <div class="stepper__step"></div>
         </div>
-        <div class="card">
-        <h1 class="h1_login">Вход в систему заявок</h1>
+        <div class="login__card">
+        <h1 class="login__title">Вход в систему заявок</h1>
 
         <div class="notification" id="emailNotification">
             <div class="notification-content">
@@ -38,36 +38,36 @@
             <button class="notification-close" id="closeNotification"><img src="img/Vector.png" alt=""></button>
         </div>
 
-        <div class="input-wrapper">
+        <div class="input-group">
             <input
                     type="tel"
                     name="phone"
                     id="phone"
-                    class="auth-input"
+                    class="input-group__field"
                     placeholder=" "
                     required
                     pattern="[0-9]{11}"
                     title="Введите 11 цифр номера телефона"
             >
-            <label for="phone" class="floating-label">Номер телефона</label>
+            <label for="phone" class="input-group__label">Номер телефона</label>
         </div>
 
-        <div class="input-wrapper">
+        <div class="input-group">
             <input
                     type="password"
                     name="password"
                     id="password"
-                    class="auth-input"
+                    class="input-group__field"
                     placeholder=" "
                     required
                     minlength="6"
             >
-            <label for="password" class="floating-label">Пароль</label>
+            <label for="password" class="input-group__label">Пароль</label>
         </div>
 
         <div id="errorMessage" class="error-message" style="display: none; color: #ef4444; font-size: 14px; margin-top: 10px; text-align: center;"></div>
 
-        <button type="submit" class="auth-btn">
+        <button type="submit" class="button--primary">
             <span>Вход</span>
         </button>
         </div>

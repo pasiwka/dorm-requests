@@ -1,7 +1,7 @@
 const form = document.getElementById('newRequestForm');
 const roomDisplay = document.getElementById('roomDisplay');
 const message = document.getElementById('message');
-const submitBtn = document.querySelector('.auth-btn');  // ← добавить кнопку
+const submitBtn = document.querySelector('.button--primary');  // ← добавить кнопку
 
 const userId = localStorage.getItem('userId');
 const userRoom = localStorage.getItem('userRoom');

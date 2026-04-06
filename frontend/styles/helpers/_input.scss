@@ -1,4 +1,4 @@
-.input-wrapper {
+.input-group {
   position: relative;
   width: 100%;
 
@@ -23,7 +23,7 @@
     }
   }
 
-  .floating-label {
+  .input-group__label {
     position: absolute;
     top: 50%;
     left: 10px;
@@ -36,8 +36,8 @@
     padding: 0 4px;
   }
 
-  input:not(:placeholder-shown) ~ .floating-label,
-  input:focus ~ .floating-label {
+  input:not(:placeholder-shown) ~ .input-group__label,
+  input:focus ~ .input-group__label {
     top: 0;
     transform: translateY(-50%);
     font-size: 12px;
@@ -46,11 +46,11 @@
     background-color: var(--color-light);
   }
 
-  input:not(:placeholder-shown) ~ .floating-label {
+  input:not(:placeholder-shown) ~ .input-group__label {
     color: var(--color-grey);
   }
 
-  input:invalid:not(:placeholder-shown) ~ .floating-label {
+  input:invalid:not(:placeholder-shown) ~ .input-group__label {
     color: var(--color-error);
   }
 }
@@ -63,7 +63,7 @@
   margin-bottom: 16px;
 }
 
-.container2 {
+.request__section {
   padding: 0 16px 16px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
@@ -75,7 +75,7 @@
   font-size: var(--font-size-small);
 }
 
-.input-profile {
+.profile__input {
   margin-bottom: 8px;
 }
 
@@ -86,7 +86,7 @@
 
 }
 
-.search-wrapper .auth-input,
+.search-wrapper .input-group__field,
 .search-wrapper .search {
   width: 216px;
   height: 30px;
