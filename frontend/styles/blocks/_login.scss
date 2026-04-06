@@ -55,6 +55,17 @@
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+.card{
+  max-width: 500px;
+  margin: 0 0;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.auth-input{
+  margin-bottom: 20px;
+}
 .student-name {
   font-size: 24px;
   font-weight: 600;
