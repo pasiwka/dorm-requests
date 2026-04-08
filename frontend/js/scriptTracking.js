@@ -88,6 +88,7 @@ function createRequestCard(request) {
     const formattedDate = formatDate(request.created_at);
 
     card.innerHTML = `
+        <div class="request">
         <div class="request-card-footer">
             <span class="request-date"> ${formattedDate}</span>
             <span class="request-room"> ${request.building_name}, ${request.room_number}</span>        </div>
@@ -95,7 +96,7 @@ function createRequestCard(request) {
             <span class="request-category">${request.category_name}</span>            <span class="request-status ${statusClass}">${statusText}</span>
         </div>
         <div class="request-card-description">${truncateText(request.description, 80)}</div>
-  
+        </div>
     `;
 
     return card;

@@ -183,17 +183,21 @@ svg * {
   margin-left: auto;
   margin-right: auto;
   font-size: 14px;
+  backdrop-filter: blur(4px);
 }
 
 .table-container {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
   padding: 20px;
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: 20px;
 }
 
 .requests-table {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
+  border-radius: 20px;
   width: 100%;
   border-collapse: collapse;
 }
@@ -351,15 +355,26 @@ svg * {
 
 .login__card {
   max-width: 500px;
-  margin: 0 0;
-  background: white;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.09);
   border-radius: 20px;
+  backdrop-filter: blur(4px);
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.student-card,
+.menu-btn,
+.logout-btn,
+.button--primary {
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
+}
+
 .input-group__field {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .student-name {
@@ -422,7 +437,6 @@ svg * {
   display: flex;
   gap: 40px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #eee;
   width: 100%;
 }
 
@@ -432,14 +446,20 @@ svg * {
   padding: 5px;
   background: var(--color-light);
   color: var(--color-dark-10);
-  border: 1px solid var(--color-dark-10);
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 15px;
 }
 
 .filter-item:hover {
   background: var(--color-dark-10);
   color: white;
+}
+
+.request {
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .tracking-title {
@@ -462,7 +482,6 @@ svg * {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 10px;
-  border-bottom: 2px solid #eee;
   font-size: 16px;
 }
 
@@ -504,7 +523,7 @@ svg * {
 .input-group input {
   width: 100%;
   height: 60px;
-  padding: 20px 10px 8px 10px;
+  padding: 0px 10px 8px 10px;
   font-size: 16px;
   background-color: transparent;
   border: 1px solid var(--color-border);
@@ -541,7 +560,8 @@ svg * {
   font-size: 12px;
   border-radius: var(--border-radius);
   color: var(--color-green);
-  background-color: var(--color-light);
+  background-color: rgba(254, 255, 254, 0.65);
+  backdrop-filter: blur(4px);
 }
 
 .input-group input:not(:placeholder-shown) ~ .input-group__label {
@@ -562,10 +582,11 @@ svg * {
 
 .request__section {
   padding: 0 16px 16px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   gap: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .profile {
@@ -647,7 +668,7 @@ input[type=search]::-webkit-search-cancel-button:active {
 .input-group input {
   width: 100%;
   height: 60px;
-  padding: 20px 10px 8px 10px;
+  padding: 0px 10px 8px 10px;
   font-size: 16px;
   background-color: transparent;
   border: 1px solid var(--color-border);
@@ -684,7 +705,8 @@ input[type=search]::-webkit-search-cancel-button:active {
   font-size: 12px;
   border-radius: var(--border-radius);
   color: var(--color-green);
-  background-color: var(--color-light);
+  background-color: rgba(254, 255, 254, 0.65);
+  backdrop-filter: blur(4px);
 }
 
 .input-group input:not(:placeholder-shown) ~ .input-group__label {
@@ -705,10 +727,11 @@ input[type=search]::-webkit-search-cancel-button:active {
 
 .request__section {
   padding: 0 16px 16px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   gap: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .profile {
@@ -882,7 +905,7 @@ a, button, input, textarea, select,
 .input-group input {
   width: 100%;
   height: 60px;
-  padding: 20px 10px 8px 10px;
+  padding: 0px 10px 8px 10px;
   font-size: 16px;
   background-color: transparent;
   border: 1px solid var(--color-border);
@@ -919,7 +942,8 @@ a, button, input, textarea, select,
   font-size: 12px;
   border-radius: var(--border-radius);
   color: var(--color-green);
-  background-color: var(--color-light);
+  background-color: rgba(254, 255, 254, 0.65);
+  backdrop-filter: blur(4px);
 }
 
 .input-group input:not(:placeholder-shown) ~ .input-group__label {
@@ -940,10 +964,11 @@ a, button, input, textarea, select,
 
 .request__section {
   padding: 0 16px 16px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   gap: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .profile {
@@ -994,10 +1019,26 @@ input[type=search]::-webkit-search-cancel-button:active {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  overflow: hidden;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(9, 87, 14, 0.52), rgba(255, 255, 255, 0.6), rgba(156, 185, 248, 0.6));
+  animation: grainientMove 10s ease infinite;
+  background-size: 200% 200%;
+}
+
+.student-card,
+.menu-btn,
+.logout-btn,
+.button--primary,
+.filter-item {
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
+}
+
+.change {
+  width: auto;
+  height: auto;
+  padding: 3px;
 }
 
 /*# sourceMappingURL=main.css.map */

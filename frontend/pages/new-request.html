@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../styles/main.css">
     <title>Новая заявка | CampusNet</title>
 </head>
-<body>
+<body >
+
+<div class="grainient-bg"></div>
 <header class="header">
     <div class="header__container">
         <div class="logo">
@@ -29,7 +31,7 @@
         <div class="request__section">
         <h1>Новая заявка</h1>
         <p class="request__description">Выбери категорию — мы отправим специалиста в твою комнату</p>
-        <p>Твоя комната: <span id="roomDisplay">Корпус Силикатары, 123</span> <button class="request__edit-button">[изменить]</button></p>
+        <p>Твоя комната: <span id="roomDisplay">Корпус Силикатары, 123</span> <button class="button--primary change">[изменить]</button></p>
             <label class="request__category">
                 <input type="radio" name="category" value="1" checked> Сантехник
                 <p class="request__description description">Течет кран, засор, бачок</p>
@@ -55,6 +57,7 @@
             </div>
     </form>
 </main>
+<script src="../js/grainient.js"></script>
 <script src="../js/scriptNewRequest.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.grainient-bg');
+
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
