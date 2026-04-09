@@ -32,24 +32,30 @@
         <h1>Новая заявка</h1>
         <p class="request__description">Выбери категорию — мы отправим специалиста в твою комнату</p>
         <p>Твоя комната: <span id="roomDisplay">Корпус Силикатары, 123</span> <button class="button--primary change">[изменить]</button></p>
-            <label class="request__category">
-                <input type="radio" name="category" value="1" checked> Сантехник
-                <p class="request__description description">Течет кран, засор, бачок</p>
+            <label class="request__category rad-label">
+                <input type="radio" name="category" value="5" class="rad-input" checked>
+                <div class="rad-design"></div>
+                <div class="rad-design_text">Сантехник</div>
+                <div class="rad-text"><p class="request__description description">Течет кран, засор, бачок</p></div>
             </label>
 
-            <label class="request__category">
-                <input type="radio" name="category" value="2"> Электрик
-                <p class="request__description description">Свет не работает, розетка, проводка</p>
+            <label class="request__category rad-label">
+                <input type="radio" name="category" value="4" class="rad-input">
+                <div class="rad-design"></div>
+                <div class="rad-design_text">Электрик</div>
+                <div class="rad-text"><p class="request__description description">Свет не работает, розетка, проводка</p></div>
             </label>
 
-            <label class="request__category">
-                <input type="radio" name="category" value="3"> Мебель
-                <p class="request__description description">Сломалась кровать, стул, шкаф</p>
+            <label class="request__category rad-label">
+                <input type="radio" name="category" value="3" class="rad-input">
+                <div class="rad-design"></div>
+                <div class="rad-design_text">Мебель</div>
+                <div class="rad-text"><p class="request__description description">Сломалась кровать, стул, шкаф</p></div>
             </label>
 
         <h1>Подробное описание</h1>
         <label><p class="request__description">Напиши, что именно случилось. Чем подробнее — тем быстрее поможем.</p></label>
-        <textarea id="message" name="message" rows="4" cols="30" placeholder="Например: &quot;Капает вода из трубы под раковиной. Нужно срочно починить, потому что заливает соседей снизу&quot;"></textarea>
+        <textarea id="message" name="message"  class="request__textarea"  rows="4" cols="30" placeholder="Например: &quot;Капает вода из трубы под раковиной. Нужно срочно починить, потому что заливает соседей снизу&quot;"></textarea>
 
         <button type="submit" class="button--primary" id="buttonAdded">
             <span>Отправить Заявку</span>

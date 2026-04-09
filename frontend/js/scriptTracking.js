@@ -61,11 +61,6 @@ function renderRequests() {
     if (filteredRequests.length === 0) {
         container.innerHTML = `
             <div class="empty-filter-state">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="8" x2="12" y2="12"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
                 <p>Нет заявок с таким статусом</p>
             </div>
         `;
@@ -93,7 +88,8 @@ function createRequestCard(request) {
             <span class="request-date"> ${formattedDate}</span>
             <span class="request-room"> ${request.building_name}, ${request.room_number}</span>        </div>
         <div class="request-card-header">
-            <span class="request-category">${request.category_name}</span>            <span class="request-status ${statusClass}">${statusText}</span>
+            <span class="request-category">${request.category_name}</span>         
+            <span class="request-status ${statusClass}">${statusText}</span>
         </div>
         <div class="request-card-description">${truncateText(request.description, 80)}</div>
         </div>

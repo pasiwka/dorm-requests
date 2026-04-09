@@ -57,12 +57,11 @@
   text-align: left;
 }
 .status-select {
-  color: #e4ec81;
-  background: #b9ab18;
-  border-color: #887e13;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 5px 5px;
   cursor: pointer;
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
 }
 .table-wrapper {
   display: flex;
@@ -94,7 +93,7 @@
 }
 
 .requests-table tbody tr {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 2px solid rgba(9, 87, 14, 0.09);
 }
 
 .requests-table tbody tr:last-child {
@@ -107,10 +106,15 @@
 }
 
 .requests-table thead tr {
-  border-bottom: 2px solid var(--color-border);
+  border-bottom: 2px solid rgba(9, 87, 14, 0.09);
 }
 .status-done {
   background: #dbeafe;
   color: #1e40af;
   border: 1px solid #93c5fd;
+}
+
+.table-select{
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(4px);
 }

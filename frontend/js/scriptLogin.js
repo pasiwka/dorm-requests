@@ -1,4 +1,5 @@
-// закрываем уведомление
+// frontend/js/scriptLogin.js
+
 const notificationClose = document.querySelector("#closeNotification");
 const notificationContent = document.querySelector(".notification");
 
@@ -9,13 +10,30 @@ if (notificationClose && notificationContent) {
     });
 }
 
-
-// обрабатываем отправку формы
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const phone = document.getElementById('phone').value;
     const password = document.getElementById('password').value;
+    const errorMessageDiv = document.getElementById('errorMessage');
+
+    errorMessageDiv.style.display = 'none';
+    errorMessageDiv.textContent = '';
+
+    if (!phone || !password) {
+        showError('Заполните все поля');
+        return;
+    }
+
+    if (phone.length !== 11) {
+        showError('Номер телефона должен содержать 11 цифр');
+        return;
+    }
+
+    if (password.length < 6) {
+        showError('Пароль должен содержать минимум 6 символов');
+        return;
+    }
 
     try {
         const submitBtn = document.querySelector('.button--primary');
@@ -36,19 +54,22 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         const data = await response.json();
 
-        // Восстанавливаем кнопку
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
 
         if (data.success) {
-            // Сохраняем данные пользователя в localStorage
+            console.log('Данные от сервера:', data);
+            console.log('firstName:', data.user.firstName);
+            console.log('lastName:', data.user.lastName);
+
             localStorage.setItem('userId', data.user.id);
             localStorage.setItem('userRole', data.user.role);
             localStorage.setItem('userPhone', data.user.phone);
-            localStorage.setItem('userFirstName', data.user.first_name || '');
-            localStorage.setItem('userLastName', data.user.last_name || '');
+            localStorage.setItem('userFirstName', data.user.firstName || '');
+            localStorage.setItem('userLastName', data.user.lastName || '');
             localStorage.setItem('userRoom', data.user.room_number || '');
             localStorage.setItem('userBuilding', data.user.building || '');
+
             document.body.classList.add('fade-out');
 
             setTimeout(() => {
@@ -58,16 +79,18 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
                     window.location.href = 'student.html';
                 }
             }, 500);
-        } else {
+        }else {
             showError(data.error || 'Ошибка входа. Проверьте номер и пароль.');
         }
 
     } catch (error) {
         console.error('Ошибка:', error);
-        showError('Ошибка подключения к серверу.');
+        showError('Ошибка подключения к серверу. Убедитесь, что сервер запущен');
         const submitBtn = document.querySelector('.button--primary');
-        submitBtn.innerHTML = '<span>Вход</span>';
-        submitBtn.disabled = false;
+        if (submitBtn) {
+            submitBtn.innerHTML = '<span>Вход</span>';
+            submitBtn.disabled = false;
+        }
     }
 });
 
@@ -82,4 +105,3 @@ function showError(message) {
         }
     }, 5000);
 }
-

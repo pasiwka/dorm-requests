@@ -32,12 +32,12 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/requests', (req, res) => {
     db.all(`
-        SELECT r.*, u.first_name, u.last_name, c.name as category_name, c.icon, rm.room_number, b.name as building_name
+        SELECT r.*, u.first_name, u.last_name, c.name as category_name, rm.room_number, b.name as building_name
         FROM requests r
-        JOIN users u ON r.user_id = u.id
-        JOIN request_categories c ON r.category_id = c.id
-        JOIN rooms rm ON r.room_id = rm.id
-        JOIN buildings b ON rm.building_id = b.id
+                 JOIN users u ON r.user_id = u.id
+                 JOIN request_categories c ON r.category_id = c.id
+                 JOIN rooms rm ON r.room_id = rm.id
+                 JOIN buildings b ON rm.building_id = b.id
         ORDER BY r.created_at DESC
     `, (err, requests) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -49,7 +49,7 @@ app.get('/api/requests/user/:userId', (req, res) => {
     const { userId } = req.params;
 
     db.all(`
-        SELECT r.*, c.name as category_name, c.icon, rm.room_number, b.name as building_name
+        SELECT r.*, c.name as category_name, rm.room_number, b.name as building_name
         FROM requests r
                  JOIN request_categories c ON r.category_id = c.id
                  JOIN rooms rm ON r.room_id = rm.id

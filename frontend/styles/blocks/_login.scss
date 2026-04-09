@@ -42,7 +42,7 @@
 }
 
 
- .student-container {
+.student-container {
    min-height: 100vh;
    padding: 40px 20px;
    background: #f5f7fa;
@@ -81,16 +81,14 @@
   align-items: center;
 }
 .student-name {
-  font-size: 24px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
   margin-bottom: 8px;
 }
 .student-info {
   color: #666;
-  margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
 }
 .menu-buttons {
   display: flex;

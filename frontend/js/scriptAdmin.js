@@ -1,3 +1,7 @@
+// frontend/js/scriptAdmin.js
+
+let allRequests = [];  // глобальная переменная для хранения всех заявок
+
 function formatDate(dateStr) {
     const date = new Date(dateStr);
     const now = new Date();
@@ -36,7 +40,6 @@ function getStatusText(status) {
 }
 
 function showError(message) {
-
     let errorDiv = document.getElementById('adminError');
 
     if (!errorDiv) {
@@ -65,6 +68,11 @@ function showError(message) {
 
 function renderRequests(requests, tbody) {
     tbody.innerHTML = '';
+
+    if (requests.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7">По вашему запросу ничего не найдено</td></tr>';
+        return;
+    }
 
     requests.forEach(request => {
         const row = document.createElement('tr');
@@ -98,7 +106,7 @@ function renderRequests(requests, tbody) {
         const statusCell = document.createElement('td');
         const statusClass = getStatusClass(request.status);
         const statusText = getStatusText(request.status);
-        statusCell.innerHTML = `<span class="status-badge ${statusClass}">${statusText}</span>`;
+        statusCell.innerHTML = `<span class="request-status ${statusClass}">${statusText}</span>`;
         row.appendChild(statusCell);
 
         const actionsCell = document.createElement('td');
@@ -117,7 +125,6 @@ function renderRequests(requests, tbody) {
     });
 }
 
-
 async function loadRequests(tbody) {
     try {
         const response = await fetch('http://localhost:3000/api/requests', {
@@ -130,6 +137,7 @@ async function loadRequests(tbody) {
         }
 
         const requests = await response.json();
+        allRequests = requests;  // сохраняем все заявки
         renderRequests(requests, tbody);
 
     } catch (error) {
@@ -137,7 +145,6 @@ async function loadRequests(tbody) {
         tbody.innerHTML = '<tr><td colspan="7">Ошибка загрузки заявок</td></tr>';
     }
 }
-
 
 function setupStatusChangeHandler(tbody) {
     tbody.addEventListener('change', async function(event) {
@@ -161,9 +168,9 @@ function setupStatusChangeHandler(tbody) {
 
             if (data.success) {
                 const row = select.closest('tr');
-                const statusCell = row.querySelector('.status-badge');
+                const statusCell = row.querySelector('.request-status');
                 statusCell.textContent = getStatusText(newStatus);
-                statusCell.className = `status-badge ${getStatusClass(newStatus)}`;
+                statusCell.className = `request-status ${getStatusClass(newStatus)}`;
             } else {
                 select.value = oldStatusValue;
                 showError(data.error || 'Не удалось изменить статус');
@@ -178,6 +185,37 @@ function setupStatusChangeHandler(tbody) {
     });
 }
 
+function setupSearchHandler(tbody) {
+    const searchInput = document.getElementById('search');
+
+    if (!searchInput) {
+        console.error('Поле поиска не найдено');
+        return;
+    }
+
+    searchInput.addEventListener('input', (e) => {
+        const searchText = e.target.value.toLowerCase().trim();
+
+        if (!searchText) {
+            // Если поле пустое — показываем все заявки
+            renderRequests(allRequests, tbody);
+            return;
+        }
+
+        // Фильтруем заявки
+        const filtered = allRequests.filter(request => {
+            return request.first_name.toLowerCase().includes(searchText) ||
+                request.last_name.toLowerCase().includes(searchText) ||
+                request.category_name.toLowerCase().includes(searchText) ||
+                request.description.toLowerCase().includes(searchText) ||
+                request.room_number.toLowerCase().includes(searchText) ||
+                getStatusText(request.status).toLowerCase().includes(searchText);
+        });
+
+        renderRequests(filtered, tbody);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', async function() {
     const tbody = document.querySelector('tbody');
 
@@ -185,6 +223,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.error('Таблица не найдена');
         return;
     }
+
     await loadRequests(tbody);
     setupStatusChangeHandler(tbody);
+    setupSearchHandler(tbody);
 });
