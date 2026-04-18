@@ -15,10 +15,9 @@ const buildingInput = document.getElementById('building');
 const roomInput = document.getElementById('room');
 const form = document.getElementById('loginForm');
 const buttons = document.querySelectorAll('.button--primary');
-const saveBtn = buttons[0]; // Первая кнопка "Сохранить"
-const backBtn = buttons[1]; // Вторая кнопка "Назад"
+const saveBtn = buttons[0];
+const backBtn = buttons[1];
 
-// Загрузка данных пользователя из БД
 async function loadUserProfile() {
     try {
         const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
@@ -32,17 +31,14 @@ async function loadUserProfile() {
 
         const user = await response.json();
 
-        // Заполняем поля формы
         if (nameInput) nameInput.value = user.first_name || '';
         if (surnameInput) surnameInput.value = user.last_name || '';
 
-        // Если есть информация о комнате
         if (user.room) {
             if (buildingInput) buildingInput.value = user.room.building_name || '';
             if (roomInput) roomInput.value = user.room.room_number || '';
         }
 
-        // Также обновляем localStorage
         if (user.first_name) localStorage.setItem('userFirstName', user.first_name);
         if (user.last_name) localStorage.setItem('userLastName', user.last_name);
         if (user.room) {
@@ -56,7 +52,6 @@ async function loadUserProfile() {
     }
 }
 
-// Сохранение данных профиля
 async function saveUserProfile() {
     const firstName = nameInput ? nameInput.value.trim() : '';
     const lastName = surnameInput ? surnameInput.value.trim() : '';
@@ -68,13 +63,11 @@ async function saveUserProfile() {
         return;
     }
 
-    // Показываем загрузку
     const originalText = saveBtn.innerHTML;
     saveBtn.innerHTML = '<span>Сохранение...</span>';
     saveBtn.disabled = true;
 
     try {
-        // Обновляем имя и фамилию
         const userResponse = await fetch(`http://localhost:3000/api/users/${userId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -102,7 +95,6 @@ async function saveUserProfile() {
             if (roomResponse.ok) {
                 const room = await roomResponse.json();
 
-                // Обновляем residencies
                 await fetch(`http://localhost:3000/api/residencies/${userId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
@@ -137,7 +129,6 @@ async function saveUserProfile() {
     }
 }
 
-// Функция показа ошибки
 function showError(message) {
     let errorDiv = document.getElementById('profileError');
     if (!errorDiv) {
@@ -162,7 +153,6 @@ function showError(message) {
     }, 3000);
 }
 
-// Функция показа успеха
 function showSuccess(message) {
     let successDiv = document.getElementById('profileSuccess');
     if (!successDiv) {
@@ -187,12 +177,10 @@ function showSuccess(message) {
     }, 3000);
 }
 
-// Обработчик кнопки "Назад"
 function goBack() {
     window.location.href = 'student.html';
 }
 
-// Назначаем обработчики (отменяем отправку формы)
 if (form) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
