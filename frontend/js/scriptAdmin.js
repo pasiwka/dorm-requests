@@ -1,6 +1,8 @@
 // frontend/js/scriptAdmin.js
 
 let allRequests = [];  // глобальная переменная для хранения всех заявок
+let currentStatusFilter = 'all';  // текущий фильтр по статусу
+let currentBuildingFilter = 'all';  // текущий фильтр по корпусу
 
 function formatDate(dateStr) {
     const date = new Date(dateStr);
@@ -125,6 +127,86 @@ function renderRequests(requests, tbody) {
     });
 }
 
+function filterRequests() {
+    let filtered = [...allRequests];
+
+    // Фильтр по корпусу
+    if (currentBuildingFilter !== 'all') {
+        filtered = filtered.filter(request => request.building_name === currentBuildingFilter);
+    }
+
+    // Фильтр по статусу
+    if (currentStatusFilter !== 'all') {
+        filtered = filtered.filter(request => request.status === currentStatusFilter);
+    }
+
+    // Поиск (если есть текст в поле поиска)
+    const searchInput = document.getElementById('search');
+    if (searchInput && searchInput.value.trim()) {
+        const searchText = searchInput.value.toLowerCase().trim();
+        filtered = filtered.filter(request => {
+            return request.first_name.toLowerCase().includes(searchText) ||
+                request.last_name.toLowerCase().includes(searchText) ||
+                request.category_name.toLowerCase().includes(searchText) ||
+                request.description.toLowerCase().includes(searchText) ||
+                request.room_number.toLowerCase().includes(searchText) ||
+                getStatusText(request.status).toLowerCase().includes(searchText);
+        });
+    }
+
+    const tbody = document.querySelector('tbody');
+    renderRequests(filtered, tbody);
+}
+
+function setupBuildingFilterHandler() {
+    const buildingSelect = document.querySelector('.table-select');
+
+    if (!buildingSelect) {
+        console.error('Выпадающий список корпусов не найден');
+        return;
+    }
+
+    // Обновляем значения в выпадающем списке
+    buildingSelect.innerHTML = `
+        <option value="all">Все корпуса</option>
+        <option value="Силикаты">Силикаты</option>
+        <option value="Крест">Крест</option>
+        <option value="Временное">Временное</option>
+    `;
+
+    buildingSelect.addEventListener('change', () => {
+        currentBuildingFilter = buildingSelect.value;
+
+        // Обновляем заголовок
+        const titleElement = document.querySelector('.table-wrapper h1');
+        if (currentBuildingFilter === 'all') {
+            titleElement.textContent = 'Все заявки';
+        } else {
+            titleElement.textContent = `Заявки корпуса "${currentBuildingFilter}"`;
+        }
+
+        filterRequests();
+    });
+}
+
+function setupStatusFilterHandler() {
+    const filterButtons = document.querySelectorAll('.status-filter-btn');
+
+    if (!filterButtons.length) {
+        console.error('Кнопки фильтрации не найдены');
+        return;
+    }
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentStatusFilter = btn.dataset.status;
+            filterRequests();
+        });
+    });
+}
+
 async function loadRequests(tbody) {
     try {
         const response = await fetch('http://localhost:3000/api/requests', {
@@ -137,7 +219,7 @@ async function loadRequests(tbody) {
         }
 
         const requests = await response.json();
-        allRequests = requests;  // сохраняем все заявки
+        allRequests = requests;
         renderRequests(requests, tbody);
 
     } catch (error) {
@@ -171,6 +253,11 @@ function setupStatusChangeHandler(tbody) {
                 const statusCell = row.querySelector('.request-status');
                 statusCell.textContent = getStatusText(newStatus);
                 statusCell.className = `request-status ${getStatusClass(newStatus)}`;
+
+                const requestIndex = allRequests.findIndex(r => r.id == requestId);
+                if (requestIndex !== -1) {
+                    allRequests[requestIndex].status = newStatus;
+                }
             } else {
                 select.value = oldStatusValue;
                 showError(data.error || 'Не удалось изменить статус');
@@ -185,7 +272,7 @@ function setupStatusChangeHandler(tbody) {
     });
 }
 
-function setupSearchHandler(tbody) {
+function setupSearchHandler() {
     const searchInput = document.getElementById('search');
 
     if (!searchInput) {
@@ -193,26 +280,8 @@ function setupSearchHandler(tbody) {
         return;
     }
 
-    searchInput.addEventListener('input', (e) => {
-        const searchText = e.target.value.toLowerCase().trim();
-
-        if (!searchText) {
-            // Если поле пустое — показываем все заявки
-            renderRequests(allRequests, tbody);
-            return;
-        }
-
-        // Фильтруем заявки
-        const filtered = allRequests.filter(request => {
-            return request.first_name.toLowerCase().includes(searchText) ||
-                request.last_name.toLowerCase().includes(searchText) ||
-                request.category_name.toLowerCase().includes(searchText) ||
-                request.description.toLowerCase().includes(searchText) ||
-                request.room_number.toLowerCase().includes(searchText) ||
-                getStatusText(request.status).toLowerCase().includes(searchText);
-        });
-
-        renderRequests(filtered, tbody);
+    searchInput.addEventListener('input', () => {
+        filterRequests();
     });
 }
 
@@ -226,5 +295,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     await loadRequests(tbody);
     setupStatusChangeHandler(tbody);
-    setupSearchHandler(tbody);
+    setupSearchHandler();
+    setupStatusFilterHandler();
+    setupBuildingFilterHandler();
 });
