@@ -1,8 +1,6 @@
-// frontend/js/scriptAdmin.js
-
-let allRequests = [];  // глобальная переменная для хранения всех заявок
-let currentStatusFilter = 'all';  // текущий фильтр по статусу
-let currentBuildingFilter = 'all';  // текущий фильтр по корпусу
+let allRequests = [];
+let currentStatusFilter = 'all';
+let currentBuildingFilter = 'all';
 
 function formatDate(dateStr) {
     const date = new Date(dateStr);
@@ -130,17 +128,14 @@ function renderRequests(requests, tbody) {
 function filterRequests() {
     let filtered = [...allRequests];
 
-    // Фильтр по корпусу
     if (currentBuildingFilter !== 'all') {
         filtered = filtered.filter(request => request.building_name === currentBuildingFilter);
     }
 
-    // Фильтр по статусу
     if (currentStatusFilter !== 'all') {
         filtered = filtered.filter(request => request.status === currentStatusFilter);
     }
 
-    // Поиск (если есть текст в поле поиска)
     const searchInput = document.getElementById('search');
     if (searchInput && searchInput.value.trim()) {
         const searchText = searchInput.value.toLowerCase().trim();
@@ -166,7 +161,6 @@ function setupBuildingFilterHandler() {
         return;
     }
 
-    // Обновляем значения в выпадающем списке
     buildingSelect.innerHTML = `
         <option value="all">Все корпуса</option>
         <option value="Силикаты">Силикаты</option>

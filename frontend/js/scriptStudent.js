@@ -1,35 +1,77 @@
-// frontend/js/scriptStudent.js
-
 const role = localStorage.getItem('userRole');
 const userId = localStorage.getItem('userId');
-const firstName = localStorage.getItem('userFirstName');
-const lastName = localStorage.getItem('userLastName');
 
-// Проверка роли
 if (role !== 'student') {
     window.location.href = 'login.html';
 }
 
-// Отображение имени студента
 const studentNameEl = document.getElementById('studentName');
 const studentInfoEl = document.getElementById('studentInfo');
 
-if (firstName && lastName) {
-    studentNameEl.textContent = `${firstName} ${lastName}`;
-} else {
-    studentNameEl.textContent = 'Студент';
-    studentInfoEl.textContent = 'Заполните профиль, чтобы указать имя и комнату';
+async function loadUserDataFromDB() {
+    try {
+        const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки данных пользователя');
+        }
+
+        const user = await response.json();
+        if (user.first_name) localStorage.setItem('userFirstName', user.first_name);
+        if (user.last_name) localStorage.setItem('userLastName', user.last_name);
+
+        if (user.room) {
+            localStorage.setItem('userRoom', user.room.room_number || '');
+            localStorage.setItem('userBuilding', user.room.building_name || '');
+        }
+
+        updateDisplay(user);
+
+    } catch (error) {
+        console.error('Ошибка загрузки из БД:', error);
+        updateDisplayFromLocalStorage();
+    }
 }
 
-// Отображение комнаты (если есть)
-const userRoom = localStorage.getItem('userRoom');
-const userBuilding = localStorage.getItem('userBuilding');
+function updateDisplay(user) {
+    const firstName = user.first_name;
+    const lastName = user.last_name;
+    const roomNumber = user.room?.room_number;
+    const buildingName = user.room?.building_name;
 
-if (studentInfoEl && userRoom && userBuilding) {
-    studentInfoEl.textContent = `${userBuilding}, ${userRoom}`;
+    if (firstName && lastName) {
+        studentNameEl.textContent = `${firstName} ${lastName}`;
+    } else {
+        studentNameEl.textContent = 'Студент';
+    }
+
+    if (buildingName && roomNumber) {
+        studentInfoEl.textContent = `${buildingName}, ${roomNumber}`;
+    } else if (studentInfoEl) {
+        studentInfoEl.textContent = 'Заполните профиль, чтобы указать имя и комнату';
+    }
 }
+function updateDisplayFromLocalStorage() {
+    const firstName = localStorage.getItem('userFirstName');
+    const lastName = localStorage.getItem('userLastName');
+    const userRoom = localStorage.getItem('userRoom');
+    const userBuilding = localStorage.getItem('userBuilding');
 
-// Функции навигации
+    if (firstName && lastName) {
+        studentNameEl.textContent = `${firstName} ${lastName}`;
+    } else {
+        studentNameEl.textContent = 'Студент';
+    }
+
+    if (userBuilding && userRoom) {
+        studentInfoEl.textContent = `${userBuilding}, ${userRoom}`;
+    } else if (studentInfoEl) {
+        studentInfoEl.textContent = 'Заполните профиль, чтобы указать имя и комнату';
+    }
+}
 function goToProfile() {
     window.location.href = 'profile.html';
 }
@@ -49,6 +91,7 @@ function logout() {
         window.location.href = 'login.html';
     }, 500);
 }
-console.log('userFirstName:', localStorage.getItem('userFirstName'));
-console.log('userLastName:', localStorage.getItem('userLastName'));
-console.log('userRole:', localStorage.getItem('userRole'));
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadUserDataFromDB();
+});

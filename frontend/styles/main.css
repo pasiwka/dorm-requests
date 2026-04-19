@@ -1,4 +1,3 @@
-@charset "UTF-8";
 *,
 ::before,
 ::after {
@@ -139,7 +138,6 @@ svg * {
   background: var(--color-green);
 }
 
-/* Для Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-green) #2a2a2a;
@@ -512,7 +510,7 @@ svg * {
   font-weight: 500;
 }
 
-.status-pending {
+.status-pending, .status-new {
   background: #fef3c7;
   color: #d97706;
 }
@@ -936,6 +934,14 @@ body {
   color: var(--color-gray-10);
   background-color: var(--color-light);
 }
+@media (width <= 47.99875rem) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  }
+}
 
 h1 {
   font-weight: 700;
@@ -965,6 +971,23 @@ a, button, input, textarea, select,
   align-items: center;
   gap: 2px;
   padding-left: 80px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+@media (width <= 63.99875rem) {
+  .logo {
+    padding-left: 40px;
+  }
+}
+@media (width <= 47.99875rem) {
+  .logo {
+    padding-left: 20px;
+  }
+}
+@media (width <= 655px) {
+  .logo {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .header__container {
@@ -1005,8 +1028,8 @@ a, button, input, textarea, select,
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  padding: var(--container-padding);
   top: -55px;
+  padding: var(--container-padding);
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -1016,6 +1039,41 @@ a, button, input, textarea, select,
 .container > * {
   margin: 11px;
   box-sizing: border-box;
+}
+
+.student-card,
+.login__card,
+.admin__card,
+.request__card,
+.profile__card {
+  max-width: 500px;
+  width: 100%;
+}
+@media (width <= 30.06125rem) {
+  .student-card,
+  .login__card,
+  .admin__card,
+  .request__card,
+  .profile__card {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+@media (width <= 47.99875rem) {
+  .container,
+  .student-container,
+  .admin,
+  .profile,
+  .request,
+  .login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+  }
 }
 
 .login__title {

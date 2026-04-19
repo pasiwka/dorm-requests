@@ -1,15 +1,36 @@
-// frontend/js/scriptNewRequest.js
-
 const form = document.getElementById('newRequestForm');
 const roomDisplay = document.getElementById('roomDisplay');
 const message = document.getElementById('message');
 const submitBtn = document.querySelector('.button--primary');
 
 const userId = localStorage.getItem('userId');
-const userRoom = localStorage.getItem('userRoom');
-const userBuilding = localStorage.getItem('userBuilding');
 
-// Функция для получения room_id по корпусу и номеру комнаты
+async function getUserRoomFromDB() {
+    try {
+        const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка получения данных пользователя');
+        }
+
+        const user = await response.json();
+
+        if (user.room) {
+            return {
+                buildingName: user.room.building_name,
+                roomNumber: user.room.room_number,
+                roomId: null // пока не знаем room_id
+            };
+        }
+        return null;
+    } catch (error) {
+        console.error('Ошибка:', error);
+        return null;
+    }
+}
 async function getRoomId(buildingName, roomNumber) {
     try {
         const response = await fetch('http://localhost:3000/api/rooms/find', {
@@ -32,11 +53,40 @@ async function getRoomId(buildingName, roomNumber) {
         return null;
     }
 }
+async function updateRoomDisplay() {
 
-// Отображаем комнату пользователя
-if (roomDisplay && userBuilding && userRoom) {
-    roomDisplay.textContent = `${userBuilding}, ${userRoom}`;
+    let buildingName = localStorage.getItem('userBuilding');
+    let roomNumber = localStorage.getItem('userRoom');
+
+    if (!buildingName || !roomNumber) {
+        const userRoom = await getUserRoomFromDB();
+        if (userRoom) {
+            buildingName = userRoom.buildingName;
+            roomNumber = userRoom.roomNumber;
+            // Сохраняем в localStorage для будущего использования
+            if (buildingName) localStorage.setItem('userBuilding', buildingName);
+            if (roomNumber) localStorage.setItem('userRoom', roomNumber);
+        }
+    }
+
+    // Отображаем комнату
+    if (roomDisplay && buildingName && roomNumber) {
+        roomDisplay.textContent = `${buildingName}, ${roomNumber}`;
+    } else if (roomDisplay) {
+        roomDisplay.textContent = 'Корпус не указан, комната не указана';
+    }
+
+    return { buildingName, roomNumber };
 }
+
+// Отображаем комнату при загрузке страницы
+let currentBuildingName = '';
+let currentRoomNumber = '';
+
+updateRoomDisplay().then(({ buildingName, roomNumber }) => {
+    currentBuildingName = buildingName;
+    currentRoomNumber = roomNumber;
+});
 
 // Отладка
 console.log('=== ОТЛАДКА ===');
@@ -58,12 +108,21 @@ form.addEventListener('submit', async function (e) {
         return;
     }
 
-    // Получаем актуальный room_id из данных пользователя в localStorage
-    const buildingName = localStorage.getItem('userBuilding');
-    const roomNumber = localStorage.getItem('userRoom');
+    // Получаем актуальные данные о комнате (сначала из localStorage, потом из БД)
+    let buildingName = localStorage.getItem('userBuilding');
+    let roomNumber = localStorage.getItem('userRoom');
 
     if (!buildingName || !roomNumber) {
-        showError('Сначала заполните профиль (укажите корпус и комнату)');
+        const userRoom = await getUserRoomFromDB();
+        if (userRoom) {
+            buildingName = userRoom.buildingName;
+            roomNumber = userRoom.roomNumber;
+        }
+    }
+
+    // Если всё равно нет данных о комнате, показываем ошибку
+    if (!buildingName || !roomNumber) {
+        showError('Укажите корпус и комнату в профиле перед созданием заявки');
         return;
     }
 
@@ -84,7 +143,7 @@ form.addEventListener('submit', async function (e) {
             user_id: parseInt(userId),
             category_id: parseInt(selectedCategory.value),
             description: message.value.trim(),
-            room_id: roomId  // ← теперь динамический!
+            room_id: roomId
         };
 
         console.log('Отправляем данные:', requestData);
@@ -123,7 +182,7 @@ function showError(message) {
         errorMessageDiv = document.createElement('div');
         errorMessageDiv.id = 'errorMessage';
         errorMessageDiv.className = 'error-message';
-        form.prepend(errorMessageDiv);
+        if (form) form.prepend(errorMessageDiv);
     }
 
     errorMessageDiv.textContent = message;

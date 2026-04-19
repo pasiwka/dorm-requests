@@ -1,5 +1,3 @@
-// frontend/js/scriptLogin.js
-
 const notificationClose = document.querySelector("#closeNotification");
 const notificationContent = document.querySelector(".notification");
 

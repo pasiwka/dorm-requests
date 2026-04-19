@@ -1,6 +1,3 @@
-// frontend/js/scriptProfile.js
-
-// Проверка авторизации
 const userId = localStorage.getItem('userId');
 const userRole = localStorage.getItem('userRole');
 
@@ -8,7 +5,6 @@ if (!userId || userRole !== 'student') {
     window.location.href = 'login.html';
 }
 
-// DOM элементы (соответствуют вашему HTML)
 const nameInput = document.getElementById('name');
 const surnameInput = document.getElementById('surname');
 const buildingInput = document.getElementById('building');
@@ -81,7 +77,6 @@ async function saveUserProfile() {
             throw new Error('Ошибка сохранения имени и фамилии');
         }
 
-        // Если указаны корпус и комната, обновляем проживание
         if (buildingName && roomNumber) {
             const roomResponse = await fetch('http://localhost:3000/api/rooms/find', {
                 method: 'POST',
@@ -107,8 +102,6 @@ async function saveUserProfile() {
                 showError('Корпус или комната не найдены в системе');
             }
         }
-
-        // Обновляем localStorage
         localStorage.setItem('userFirstName', firstName);
         localStorage.setItem('userLastName', lastName);
         if (buildingName) localStorage.setItem('userBuilding', buildingName);
@@ -200,6 +193,4 @@ if (backBtn) {
         goBack();
     });
 }
-
-// Загружаем данные при загрузке страницы
 document.addEventListener('DOMContentLoaded', loadUserProfile);
