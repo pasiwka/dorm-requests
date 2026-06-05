@@ -140,12 +140,19 @@ function filterRequests() {
     if (searchInput && searchInput.value.trim()) {
         const searchText = searchInput.value.toLowerCase().trim();
         filtered = filtered.filter(request => {
-            return request.first_name.toLowerCase().includes(searchText) ||
-                request.last_name.toLowerCase().includes(searchText) ||
-                request.category_name.toLowerCase().includes(searchText) ||
-                request.description.toLowerCase().includes(searchText) ||
-                request.room_number.toLowerCase().includes(searchText) ||
-                getStatusText(request.status).toLowerCase().includes(searchText);
+            const first = (request.first_name || '').toString().toLowerCase();
+            const last = (request.last_name || '').toString().toLowerCase();
+            const category = (request.category_name || '').toString().toLowerCase();
+            const desc = (request.description || '').toString().toLowerCase();
+            const room = (request.room_number || '').toString().toLowerCase();
+            const statusText = getStatusText(request.status).toString().toLowerCase();
+
+            return first.includes(searchText) ||
+                last.includes(searchText) ||
+                category.includes(searchText) ||
+                desc.includes(searchText) ||
+                room.includes(searchText) ||
+                statusText.includes(searchText);
         });
     }
 
@@ -205,7 +212,7 @@ async function loadRequests(tbody) {
     try {
         const response = await fetch('http://localhost:3000/api/requests', {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
         });
 
         if (!response.ok) {
@@ -236,7 +243,7 @@ function setupStatusChangeHandler(tbody) {
         try {
             const response = await fetch(`http://localhost:3000/api/requests/${requestId}/status`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
                 body: JSON.stringify({ status: newStatus, admin_comment: "" })
             });
 

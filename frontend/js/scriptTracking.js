@@ -6,21 +6,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userId = localStorage.getItem('userId');
 
     if (!userId) {
-        window.location.href = '../pages/login.html';
+        window.location.href = 'login.html';
         return;
     }
 
     try {
         const response = await fetch(`http://localhost:3000/api/requests/user/${userId}`,{
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
         });
         const requests = await response.json();
         allRequests = requests;
         renderRequests();
         setupFilters();
-    }catch(err) {
-        console.error('Ошибка загрузки:', error);
+    } catch (err) {
+        console.error('Ошибка загрузки:', err);
         showError('Не удалось загрузить заявки');
     }
 });
@@ -152,7 +152,7 @@ function closeModal() {
 
 
 document.querySelector('.button--primary')?.addEventListener('click', () => {
-    window.location.href = '../pages/student.html';
+    window.location.href = 'student.html';
 });
 
 window.onclick = function(event) {

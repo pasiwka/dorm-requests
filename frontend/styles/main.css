@@ -1292,17 +1292,6 @@ input[type=search]::-webkit-search-cancel-button {
   color: hsl(0, 0%, 40%);
 }
 
-.grainient-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(225, 233, 250, 0.6), rgba(255, 255, 255, 0.6), rgba(225, 233, 250, 0.6));
-  animation: grainientMove 10s ease infinite;
-  background-size: 200% 200%;
-}
-
 .student-card,
 .menu-btn,
 .logout-btn,

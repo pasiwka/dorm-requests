@@ -9,7 +9,7 @@ async function getUserRoomFromDB() {
     try {
         const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
         });
 
         if (!response.ok) {
@@ -35,7 +35,7 @@ async function getRoomId(buildingName, roomNumber) {
     try {
         const response = await fetch('http://localhost:3000/api/rooms/find', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
             body: JSON.stringify({
                 building_name: buildingName,
                 room_number: roomNumber
@@ -88,12 +88,9 @@ updateRoomDisplay().then(({ buildingName, roomNumber }) => {
     currentRoomNumber = roomNumber;
 });
 
-// Отладка
-console.log('=== ОТЛАДКА ===');
-console.log('Все элементы с name="category":', document.querySelectorAll('input[name="category"]'));
-console.log('Выбранный элемент:', document.querySelector('input[name="category"]:checked'));
-
-form.addEventListener('submit', async function (e) {
+// Подключаем обработчик отправки формы при наличии формы
+if (form) {
+    form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const selectedCategory = document.querySelector('input[name="category"]:checked');
@@ -146,12 +143,13 @@ form.addEventListener('submit', async function (e) {
             room_id: roomId
         };
 
-        console.log('Отправляем данные:', requestData);
+        // отправка данных запроса
 
         const response = await fetch('http://localhost:3000/api/requests', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
             body: JSON.stringify(requestData)
         });
@@ -173,7 +171,8 @@ form.addEventListener('submit', async function (e) {
         submitBtn.disabled = false;
         showError('Ошибка подключения к серверу');
     }
-});
+    });
+}
 
 function showError(message) {
     let errorMessageDiv = document.getElementById('errorMessage');

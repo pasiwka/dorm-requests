@@ -8,8 +8,10 @@ if (notificationClose && notificationContent) {
     });
 }
 
-document.getElementById('loginForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
 
     const phone = document.getElementById('phone').value;
     const password = document.getElementById('password').value;
@@ -35,9 +37,11 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     try {
         const submitBtn = document.querySelector('.button--primary');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span>Вход...</span>';
-        submitBtn.disabled = true;
+        const originalText = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+            submitBtn.innerHTML = '<span>Вход...</span>';
+            submitBtn.disabled = true;
+        }
 
         const response = await fetch('http://localhost:3000/api/login', {
             method: 'POST',
@@ -52,13 +56,17 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         const data = await response.json();
 
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
+        if (submitBtn) {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
 
         if (data.success) {
-            console.log('Данные от сервера:', data);
-            console.log('firstName:', data.user.firstName);
-            console.log('lastName:', data.user.lastName);
+            // серверные данные получены
+
+            if (data.token) {
+                localStorage.setItem('authToken', data.token);
+            }
 
             localStorage.setItem('userId', data.user.id);
             localStorage.setItem('userRole', data.user.role);
@@ -91,6 +99,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         }
     }
 });
+}
 
 function showError(message) {
     const errorMessageDiv = document.getElementById('errorMessage');

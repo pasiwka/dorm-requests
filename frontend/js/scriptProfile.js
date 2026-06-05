@@ -18,7 +18,7 @@ async function loadUserProfile() {
     try {
         const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
         });
 
         if (!response.ok) {
@@ -59,14 +59,16 @@ async function saveUserProfile() {
         return;
     }
 
-    const originalText = saveBtn.innerHTML;
-    saveBtn.innerHTML = '<span>Сохранение...</span>';
-    saveBtn.disabled = true;
+    const originalText = saveBtn ? saveBtn.innerHTML : '';
+    if (saveBtn) {
+        saveBtn.innerHTML = '<span>Сохранение...</span>';
+        saveBtn.disabled = true;
+    }
 
     try {
         const userResponse = await fetch(`http://localhost:3000/api/users/${userId}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
             body: JSON.stringify({
                 first_name: firstName,
                 last_name: lastName
@@ -80,7 +82,7 @@ async function saveUserProfile() {
         if (buildingName && roomNumber) {
             const roomResponse = await fetch('http://localhost:3000/api/rooms/find', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
                 body: JSON.stringify({
                     building_name: buildingName,
                     room_number: roomNumber
@@ -92,7 +94,7 @@ async function saveUserProfile() {
 
                 await fetch(`http://localhost:3000/api/residencies/${userId}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
                     body: JSON.stringify({
                         room_id: room.id,
                         is_current: true
@@ -117,8 +119,10 @@ async function saveUserProfile() {
         console.error('Ошибка:', error);
         showError('Ошибка при сохранении профиля');
     } finally {
-        saveBtn.innerHTML = originalText;
-        saveBtn.disabled = false;
+        if (saveBtn) {
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+        }
     }
 }
 
