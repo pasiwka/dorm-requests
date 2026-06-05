@@ -22,7 +22,7 @@ async function getUserRoomFromDB() {
             return {
                 buildingName: user.room.building_name,
                 roomNumber: user.room.room_number,
-                roomId: null // пока не знаем room_id
+                roomId: null
             };
         }
         return null;
@@ -60,16 +60,14 @@ async function updateRoomDisplay() {
 
     if (!buildingName || !roomNumber) {
         const userRoom = await getUserRoomFromDB();
-        if (userRoom) {
+            if (userRoom) {
             buildingName = userRoom.buildingName;
             roomNumber = userRoom.roomNumber;
-            // Сохраняем в localStorage для будущего использования
             if (buildingName) localStorage.setItem('userBuilding', buildingName);
             if (roomNumber) localStorage.setItem('userRoom', roomNumber);
         }
     }
 
-    // Отображаем комнату
     if (roomDisplay && buildingName && roomNumber) {
         roomDisplay.textContent = `${buildingName}, ${roomNumber}`;
     } else if (roomDisplay) {
@@ -79,7 +77,6 @@ async function updateRoomDisplay() {
     return { buildingName, roomNumber };
 }
 
-// Отображаем комнату при загрузке страницы
 let currentBuildingName = '';
 let currentRoomNumber = '';
 
@@ -88,7 +85,6 @@ updateRoomDisplay().then(({ buildingName, roomNumber }) => {
     currentRoomNumber = roomNumber;
 });
 
-// Подключаем обработчик отправки формы при наличии формы
 if (form) {
     form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -105,7 +101,6 @@ if (form) {
         return;
     }
 
-    // Получаем актуальные данные о комнате (сначала из localStorage, потом из БД)
     let buildingName = localStorage.getItem('userBuilding');
     let roomNumber = localStorage.getItem('userRoom');
 
@@ -117,13 +112,11 @@ if (form) {
         }
     }
 
-    // Если всё равно нет данных о комнате, показываем ошибку
     if (!buildingName || !roomNumber) {
         showError('Укажите корпус и комнату в профиле перед созданием заявки');
         return;
     }
 
-    // Получаем room_id
     const roomId = await getRoomId(buildingName, roomNumber);
 
     if (!roomId) {
@@ -143,7 +136,7 @@ if (form) {
             room_id: roomId
         };
 
-        // отправка данных запроса
+        
 
         const response = await fetch('http://localhost:3000/api/requests', {
             method: 'POST',

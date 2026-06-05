@@ -7,16 +7,8 @@ const { generateToken, requireAuth } = require('./auth');
 const app = express();
 const PORT = 3000;
 
-console.log('__filename', __filename);
-console.log('process.cwd()', process.cwd());
-
 app.use(cors());
 app.use(express.json());
-
-// test route to validate auth middleware
-app.get('/__test_auth', requireAuth, (req, res) => {
-    res.json({ ok: true, auth: req.auth });
-});
 
 app.post('/api/login', (req, res) => {
     const { phone, password } = req.body;
@@ -35,7 +27,6 @@ app.post('/api/login', (req, res) => {
             if (stored.startsWith('$2')) {
                 passwordMatch = bcrypt.compareSync(password, stored);
             } else {
-                // legacy plain-text password: migrate to bcrypt on successful match
                 passwordMatch = password === stored;
                 if (passwordMatch) {
                     try {
@@ -73,7 +64,6 @@ app.post('/api/login', (req, res) => {
 app.get('/api/users/:userId', requireAuth, (req, res) => {
     const { userId } = req.params;
 
-    // allow admin or the user himself
     if (req.auth.role !== 'admin' && String(req.auth.id) !== String(userId)) {
         return res.status(403).json({ error: 'Доступ запрещён' });
     }
@@ -122,7 +112,6 @@ app.put('/api/residencies/:userId', requireAuth, (req, res) => {
     const { userId } = req.params;
     const { room_id, is_current } = req.body;
 
-    // permission: admin or the user himself
     if (req.auth.role !== 'admin' && String(req.auth.id) !== String(userId)) {
         return res.status(403).json({ error: 'Доступ запрещён' });
     }
@@ -227,7 +216,6 @@ app.put('/api/requests/:id/status', requireAuth, (req, res) => {
 app.listen(PORT, () => {
     console.log(`Сервер на http://localhost:${PORT}`);
 });
-// protect user update route
 app.put('/api/users/:userId', requireAuth, (req, res) => {
     const { userId } = req.params;
     const { first_name, last_name } = req.body;

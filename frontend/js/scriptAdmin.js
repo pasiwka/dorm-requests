@@ -178,7 +178,6 @@ function setupBuildingFilterHandler() {
     buildingSelect.addEventListener('change', () => {
         currentBuildingFilter = buildingSelect.value;
 
-        // Обновляем заголовок
         const titleElement = document.querySelector('.table-wrapper h1');
         if (currentBuildingFilter === 'all') {
             titleElement.textContent = 'Все заявки';

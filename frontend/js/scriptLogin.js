@@ -62,7 +62,6 @@ if (loginForm) {
         }
 
         if (data.success) {
-            // серверные данные получены
 
             if (data.token) {
                 localStorage.setItem('authToken', data.token);
